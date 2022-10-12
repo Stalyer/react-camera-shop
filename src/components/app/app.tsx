@@ -7,7 +7,7 @@ function App(): JSX.Element {
   return (
     <Routes>
       <Route
-        path={AppRoute.Root}
+        path={AppRoute.Catalog}
         element={<CatalogScreen />}
       />
       {/* <Route

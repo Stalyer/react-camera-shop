@@ -1,4 +1,6 @@
 export enum AppRoute {
+  Basket = '/basket',
+  Product = '/product',
   Catalog = '/catalog',
   Root = '/'
 }
@@ -12,5 +14,5 @@ export enum APIRoute {
 }
 
 export enum NameSpace {
-  Main = 'MAIN',
+  Products = 'Products',
 }

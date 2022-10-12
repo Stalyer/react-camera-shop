@@ -1,24 +1,48 @@
 import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
+
+const MENU_ROUTES = [
+  {
+    title: 'Каталог',
+    link: AppRoute.Catalog
+  },
+  {
+    title: 'Гарантии',
+    link: '#'
+  },
+  {
+    title: 'Доставка',
+    link: '#'
+  },
+  {
+    title: 'О компании',
+    link: '#'
+  },
+];
 
 function Header(): JSX.Element {
   return(
     <header className="header" id="header">
       <div className="container">
-        <a className="header__logo" href="index.html" aria-label="Переход на главную">
-          <svg width="100" height="36" aria-hidden="true">
-            <use xlinkHref="#icon-logo"></use>
-          </svg>
-        </a>
+        {window.location.pathname === AppRoute.Root ?
+          <span className="header__logo">
+            <svg width="100" height="36" aria-hidden="true">
+              <use xlinkHref="#icon-logo"></use>
+            </svg>
+          </span>
+          :
+          <Link className="header__logo" to={AppRoute.Root} aria-label="Переход на главную">
+            <svg width="100" height="36" aria-hidden="true">
+              <use xlinkHref="#icon-logo"></use>
+            </svg>
+          </Link>}
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
-            <li className="main-nav__item"><a className="main-nav__link" href="catalog.html">Каталог</a>
-            </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">Гарантии</a>
-            </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">Доставка</a>
-            </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">О компании</a>
-            </li>
+            {MENU_ROUTES.map(({title, link}) => (
+              <li className="main-nav__item" key={title}>
+                <Link className="main-nav__link" to={link}>{title}</Link>
+              </li>
+            ))}
           </ul>
         </nav>
         <div className="form-search">
@@ -43,7 +67,7 @@ function Header(): JSX.Element {
             </svg><span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        <Link className="header__basket-link" to="#">
+        <Link className="header__basket-link" to={AppRoute.Basket}>
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
