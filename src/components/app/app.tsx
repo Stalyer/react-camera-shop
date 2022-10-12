@@ -1,5 +1,21 @@
+import {Route, Routes} from 'react-router-dom';
+import {AppRoute} from '../../const';
+import CatalogScreen from '../../pages/catalog-screen/catalog-screen';
+// import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return (
+    <Routes>
+      <Route
+        path={AppRoute.Root}
+        element={<CatalogScreen />}
+      />
+      {/* <Route
+        path="*"
+        element={<NotFoundScreen />}
+      /> */}
+    </Routes>
+  );
 }
 
 export default App;
