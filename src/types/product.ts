@@ -1,3 +1,5 @@
+import {QueryParam} from '../const';
+
 export type Product = {
   id: number;
   name: string;
@@ -14,3 +16,13 @@ export type Product = {
   previewImgWebp2x: string;
   reviewCount: number;
 };
+
+export type FetchReturnProducts = {
+  data: Product[];
+  dataTotalCount: number;
+}
+
+export type FetchQueryProducts = {
+  [QueryParam.Start]: number;
+  [QueryParam.End]: number;
+}

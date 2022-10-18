@@ -14,5 +14,13 @@ export enum APIRoute {
 }
 
 export enum NameSpace {
-  Products = 'Products',
+  Products = 'Products'
 }
+
+export enum QueryParam {
+  Start = '_start',
+  End = '_end',
+  Limit = '_limit'
+}
+
+export const PRODUCTS_PER_PAGE = 9;

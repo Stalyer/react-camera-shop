@@ -6,8 +6,10 @@ import {toast} from 'react-toastify';
 
 const initialState: ProductsProcess = {
   products: [],
+  isProductsLoaded: false,
+  productsTotalCount: 0,
   promo: null,
-  isDataLoaded: false
+  isPromoLoaded: false
 };
 
 export const productsProcess = createSlice({
@@ -17,25 +19,26 @@ export const productsProcess = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isProductsLoaded = true;
       })
       .addCase(fetchCamerasAction.fulfilled, (state, action) => {
-        state.products = action.payload;
-        state.isDataLoaded = false;
+        state.products = action.payload.data;
+        state.productsTotalCount = action.payload.dataTotalCount;
+        state.isProductsLoaded = false;
       })
       .addCase(fetchCamerasAction.rejected, (state) => {
-        state.isDataLoaded = false;
+        state.isProductsLoaded = false;
         toast('There was an error loading, please try refreshing the page');
       })
       .addCase(fetchPromoAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isPromoLoaded = true;
       })
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
-        state.isDataLoaded = false;
+        state.isPromoLoaded = false;
       })
       .addCase(fetchPromoAction.rejected, (state) => {
-        state.isDataLoaded = false;
+        state.isPromoLoaded = false;
         toast('There was an error loading, please try refreshing the page');
       });
   }

@@ -1,16 +1,35 @@
-function Pagination(): JSX.Element {
+import ReactPaginate from 'react-paginate';
+
+type PaginationProps = {
+  currentPage: number;
+  pageCount: number;
+  onPageChange: (selectedItem: { selected: number }) => void;
+}
+
+function Pagination({currentPage, pageCount, onPageChange} : PaginationProps): JSX.Element {
   return(
     <div className="pagination">
-      <ul className="pagination__list">
-        <li className="pagination__item"><a className="pagination__link pagination__link--active" href="1">1</a>
-        </li>
-        <li className="pagination__item"><a className="pagination__link" href="2">2</a>
-        </li>
-        <li className="pagination__item"><a className="pagination__link" href="3">3</a>
-        </li>
-        <li className="pagination__item"><a className="pagination__link pagination__link--text" href="2">Далее</a>
-        </li>
-      </ul>
+      <ReactPaginate
+        previousLabel='Назад'
+        nextLabel='Далее'
+        pageClassName='pagination__item'
+        pageLinkClassName="pagination__link"
+        previousClassName="pagination__item"
+        previousLinkClassName="pagination__link pagination__link--text"
+        nextClassName="pagination__item"
+        nextLinkClassName="pagination__link pagination__link--text"
+        breakLabel="..."
+        breakClassName="pagination__item"
+        breakLinkClassName="pagination__link"
+        containerClassName="pagination__list"
+        activeLinkClassName="pagination__link--active"
+        pageCount={pageCount}
+        forcePage={currentPage}
+        onPageChange={onPageChange}
+        hrefBuilder={(page, count, selected) => page >= 1 && page <= count ? `/page-${page}` : '#'}
+        hrefAllControls
+        renderOnZeroPageCount={() => null}
+      />
     </div>
   );
 }
