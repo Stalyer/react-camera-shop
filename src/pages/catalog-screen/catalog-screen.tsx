@@ -60,7 +60,12 @@ function CatalogScreen(): JSX.Element {
                 <div className="catalog__content">
                   <CatalogSort />
                   <div className="cards catalog__cards">
-                    <ProductCard />
+                    {products.map((product) => (
+                      <ProductCard
+                        key={product.id.toString()}
+                        product={product}
+                      />
+                    ))}
                   </div>
                   <Pagination currentPage={currentPage} pageCount={pageCount} onPageChange={handlePageLinkClick} />
                 </div>

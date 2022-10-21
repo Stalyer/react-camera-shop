@@ -24,3 +24,5 @@ export enum QueryParam {
 }
 
 export const PRODUCTS_PER_PAGE = 9;
+
+export const RATING_MAX = 5;
