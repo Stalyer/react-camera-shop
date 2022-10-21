@@ -11,6 +11,7 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
   const {id, name, rating, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, reviewCount} = product;
 
   return(
+    //  product-card is-active
     <div className="product-card">
       <div className="product-card__img">
         {previewImg &&

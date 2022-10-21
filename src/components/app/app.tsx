@@ -1,6 +1,7 @@
 import {Route, Routes} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import CatalogScreen from '../../pages/catalog-screen/catalog-screen';
+import ProductScreen from '../../pages/product-screen/product-screen';
 // import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 
 function App(): JSX.Element {
@@ -9,6 +10,10 @@ function App(): JSX.Element {
       <Route
         path={AppRoute.Catalog}
         element={<CatalogScreen />}
+      />
+      <Route
+        path={`${AppRoute.Product}/:productId`}
+        element={<ProductScreen />}
       />
       {/* <Route
         path="*"

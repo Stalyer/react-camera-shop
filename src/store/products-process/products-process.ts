@@ -30,6 +30,7 @@ export const productsProcess = createSlice({
         state.isProductsLoaded = false;
         toast('There was an error loading, please try refreshing the page');
       })
+
       .addCase(fetchPromoAction.pending, (state) => {
         state.isPromoLoaded = true;
       })
