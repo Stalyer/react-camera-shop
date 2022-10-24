@@ -1,10 +1,20 @@
+const handleScrollToHeaderClick = () => {
+  const header = document.querySelector('#header');
+  if (header) {
+    header.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
 function UpBtn(): JSX.Element {
   return(
-    <a className="up-btn" href="#header">
+    <button type="button" className="up-btn" onClick={handleScrollToHeaderClick}>
       <svg width="12" height="18" aria-hidden="true">
         <use xlinkHref="#icon-arrow2"></use>
       </svg>
-    </a>
+    </button>
   );
 }
 

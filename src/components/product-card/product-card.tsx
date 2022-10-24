@@ -5,14 +5,14 @@ import ProductRating from '../product-rating/product-rating';
 
 type ProductCardProps = {
   product: Product;
+  isActive?: boolean;
 }
 
-function ProductCard({product}: ProductCardProps): JSX.Element {
+function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
   const {id, name, rating, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, reviewCount} = product;
 
   return(
-    //  product-card is-active
-    <div className="product-card">
+    <div className={`product-card${isActive ? ' is-active' : ''}`}>
       <div className="product-card__img">
         {previewImg &&
         <picture>
