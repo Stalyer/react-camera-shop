@@ -47,7 +47,8 @@ function CatalogScreen(): JSX.Element {
     <>
       <Header />
       <main>
-        {promo && <Promo product={promo} />}
+        {promo &&
+        <Promo product={promo} />}
         <div className="page-content">
           <Breadcrumbs />
           <section className="catalog">
