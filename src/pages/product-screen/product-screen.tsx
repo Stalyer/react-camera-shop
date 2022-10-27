@@ -9,7 +9,7 @@ import Footer from '../../components/footer/footer';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import UpBtn from '../../components/up-btn/up-btn';
 import ProductSimilar from '../../components/product-similar/product-similar';
-import Review from '../../components/review/review';
+import Reviews from '../../components/reviews/reviews';
 import ProductRating from '../../components/product-rating/product-rating';
 import {TabType} from '../../const';
 
@@ -137,7 +137,7 @@ function ProductScreen(): JSX.Element {
           </div>}
           {productReviews &&
           <div className="page-content__section">
-            <Review />
+            <Reviews reviews={productReviews} />
           </div>}
         </div>
       </main>

@@ -1,40 +1,35 @@
-function ReviewCard(): JSX.Element {
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import {Review} from '../../types/review';
+import ProductRating from '../product-rating/product-rating';
+
+type ReviewCardProps = {
+  review: Review;
+}
+
+dayjs.locale('ru');
+
+function ReviewCard({review} : ReviewCardProps): JSX.Element {
+  const {userName, advantage, disadvantage, review: text, rating, createAt: date} = review;
   return(
     <li className="review-card">
       <div className="review-card__head">
-        <p className="title title--h4">Сергей Горский</p>
-        <time className="review-card__data" dateTime="2022-04-13">13 апреля</time>
+        <p className="title title--h4">{userName}</p>
+        <time className="review-card__data" dateTime={String(date)}>{dayjs(date).format('D MMMM')}</time>
       </div>
       <div className="rate review-card__rate">
-        <svg width="17" height="16" aria-hidden="true">
-          <use xlinkHref="#icon-full-star"></use>
-        </svg>
-        <svg width="17" height="16" aria-hidden="true">
-          <use xlinkHref="#icon-full-star"></use>
-        </svg>
-        <svg width="17" height="16" aria-hidden="true">
-          <use xlinkHref="#icon-full-star"></use>
-        </svg>
-        <svg width="17" height="16" aria-hidden="true">
-          <use xlinkHref="#icon-full-star"></use>
-        </svg>
-        <svg width="17" height="16" aria-hidden="true">
-          <use xlinkHref="#icon-full-star"></use>
-        </svg>
-        <p className="visually-hidden">Оценка: 5</p>
+        <ProductRating rating={rating} />
+        <p className="visually-hidden">Оценка: {rating}</p>
       </div>
       <ul className="review-card__list">
         <li className="item-list"><span className="item-list__title">Достоинства:</span>
-          <p className="item-list__text">Надёжная, хорошо лежит в руке, необычно выглядит</p>
+          <p className="item-list__text">{advantage}</p>
         </li>
         <li className="item-list"><span className="item-list__title">Недостатки:</span>
-          <p className="item-list__text">Тяжеловата, сложно найти плёнку</p>
+          <p className="item-list__text">{disadvantage}</p>
         </li>
         <li className="item-list"><span className="item-list__title">Комментарий:</span>
-          <p className="item-list__text">Раз в полгода достаю из-под стекла, стираю пыль, заряжаю — работает как
-            часы. Ни у кого из знакомых такой нет, все завидуют) Теперь это жемчужина моей коллекции,
-            однозначно стоит своих денег!
-          </p>
+          <p className="item-list__text">{text}</p>
         </li>
       </ul>
     </li>

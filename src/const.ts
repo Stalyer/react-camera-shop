@@ -28,6 +28,8 @@ export const PRODUCTS_PER_PAGE = 9;
 
 export const SLIDE_PER_SHOW = 3;
 
+export const REVIEW_PER_SHOW = 3;
+
 export const RATING_MAX = 5;
 
 export const enum TabType {
