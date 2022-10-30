@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {ProductProcess} from '../../types/state';
-import {fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction} from '../api-actions';
+import {fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction, postReviewAction} from '../api-actions';
 import {toast} from 'react-toastify';
 
 const initialState: ProductProcess = {
@@ -10,7 +10,8 @@ const initialState: ProductProcess = {
   similar: [],
   isProductSimilarLoaded: false,
   reviews: [],
-  isProductReviewsLoaded: false
+  isProductReviewsLoaded: false,
+  isFormReviewSubmitted: false
 };
 
 export const productProcess = createSlice({
@@ -28,7 +29,7 @@ export const productProcess = createSlice({
       })
       .addCase(fetchCameraAction.rejected, (state) => {
         state.isProductLoaded = false;
-        toast('There was an error loading, please try refreshing the page');
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
       .addCase(fetchCameraSimilarAction.pending, (state) => {
@@ -40,7 +41,7 @@ export const productProcess = createSlice({
       })
       .addCase(fetchCameraSimilarAction.rejected, (state) => {
         state.isProductSimilarLoaded = false;
-        toast('There was an error loading, please try refreshing the page');
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
       .addCase(fetchCameraReviewsAction.pending, (state) => {
@@ -52,7 +53,19 @@ export const productProcess = createSlice({
       })
       .addCase(fetchCameraReviewsAction.rejected, (state) => {
         state.isProductReviewsLoaded = false;
-        toast('There was an error loading, please try refreshing the page');
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
+      })
+
+      .addCase(postReviewAction.pending, (state) => {
+        state.isFormReviewSubmitted = true;
+      })
+      .addCase(postReviewAction.fulfilled, (state, action) => {
+        state.reviews.push(action.payload);
+        state.isFormReviewSubmitted = false;
+      })
+      .addCase(postReviewAction.rejected, (state) => {
+        state.isFormReviewSubmitted = false;
+        toast('При отправке возникла ошибка, попробуйте позже');
       });
   }
 });

@@ -1,5 +1,7 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useParams, useLocation} from 'react-router-dom';
+import FocusLock from 'react-focus-lock';
+import {RemoveScroll} from 'react-remove-scroll';
 import browserHistory from '../../browser-history';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction} from '../../store/api-actions';
@@ -11,6 +13,8 @@ import UpBtn from '../../components/up-btn/up-btn';
 import ProductSimilar from '../../components/product-similar/product-similar';
 import Reviews from '../../components/reviews/reviews';
 import ProductRating from '../../components/product-rating/product-rating';
+import ModalAddReview from '../../components/modal-add-review/modal-add-review';
+import ModalAddReviewSuccess from '../../components/modal-add-review-success/modal-add-review-success';
 import {TabType} from '../../const';
 
 function ProductScreen(): JSX.Element {
@@ -22,6 +26,13 @@ function ProductScreen(): JSX.Element {
   const productReviews = useAppSelector(getProductReviews);
   const {hash} = useLocation();
   const currentTabs = hash ? hash : TabType.Description;
+  const [isModalReviewActive, setIsModalReviewActive] = useState(false);
+  const [isModalReviewSuccessActive, setIsModalReviewSuccessActive] = useState(false);
+
+  const handleSumbitSuccess = () => {
+    setIsModalReviewActive(false);
+    setIsModalReviewSuccessActive(true);
+  };
 
   useEffect(() => {
     dispatch(fetchCameraAction(Number(productId)));
@@ -137,11 +148,26 @@ function ProductScreen(): JSX.Element {
           </div>}
           {productReviews &&
           <div className="page-content__section">
-            <Reviews reviews={productReviews} />
+            <Reviews reviews={productReviews} onAddReviewClick={() => setIsModalReviewActive(true)} />
           </div>}
         </div>
       </main>
       <UpBtn />
+
+      {isModalReviewActive &&
+      <FocusLock>
+        <RemoveScroll>
+          <ModalAddReview onClose={() => setIsModalReviewActive(false)} onSubmitSuccess={handleSumbitSuccess} />
+        </RemoveScroll>
+      </FocusLock>}
+
+      {isModalReviewSuccessActive &&
+      <FocusLock>
+        <RemoveScroll>
+          <ModalAddReviewSuccess onClose={() => setIsModalReviewSuccessActive(false)} />
+        </RemoveScroll>
+      </FocusLock>}
+
       <Footer />
     </>
   );

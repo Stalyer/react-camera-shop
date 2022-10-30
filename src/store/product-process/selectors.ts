@@ -11,3 +11,5 @@ export const getLoadedProductSimilarStatus = (state: State): boolean => state[Na
 
 export const getProductReviews = (state: State): Review[] => state[NameSpace.Product].reviews;
 export const getLoadedProductReviewsStatus = (state: State): boolean => state[NameSpace.Product].isProductReviewsLoaded;
+
+export const getFormReviewSubmittedStatus = (state: State): boolean => state[NameSpace.Product].isFormReviewSubmitted;

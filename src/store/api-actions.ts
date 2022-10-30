@@ -5,7 +5,7 @@ import {APIRoute} from '../const';
 import {Product, FetchReturnProducts, FetchQueryProducts} from '../types/product';
 import {PromoProduct} from '../types/promo-product';
 import {Review} from '../types/review';
-import {ReviewData} from '../types/reviewData';
+import {ReviewData} from '../types/review-data';
 
 export const fetchCamerasAction = createAsyncThunk<FetchReturnProducts, FetchQueryProducts | undefined, {
   dispatch: AppDispatch;
@@ -70,14 +70,14 @@ export const fetchCameraSimilarAction = createAsyncThunk<Product[], number, {
   },
 );
 
-export const postReviewAction = createAsyncThunk<Review[], ReviewData, {
+export const postReviewAction = createAsyncThunk<Review, ReviewData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'dataProduct/postReview',
   async (review, {dispatch, extra: api}) => {
-    const {data} = await api.post<Review[]>(APIRoute.Reviews, review);
+    const {data} = await api.post<Review>(APIRoute.Reviews, review);
     return data;
   },
 );

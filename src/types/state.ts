@@ -6,14 +6,15 @@ import {Review} from './review';
 export type ProductProcess = {
   product: Product | null;
   isProductLoaded: boolean;
-  similar: Product[] | [];
+  similar: Product[];
   isProductSimilarLoaded: boolean;
-  reviews: Review[] | [];
+  reviews: Review[];
   isProductReviewsLoaded: boolean;
+  isFormReviewSubmitted: boolean;
 }
 
 export type ProductsProcess = {
-  products: Product[] | [];
+  products: Product[];
   isProductsLoaded: boolean;
   productsTotalCount: number;
   promo: PromoProduct | null;

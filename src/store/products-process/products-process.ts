@@ -28,7 +28,7 @@ export const productsProcess = createSlice({
       })
       .addCase(fetchCamerasAction.rejected, (state) => {
         state.isProductsLoaded = false;
-        toast('There was an error loading, please try refreshing the page');
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
       .addCase(fetchPromoAction.pending, (state) => {
@@ -40,7 +40,7 @@ export const productsProcess = createSlice({
       })
       .addCase(fetchPromoAction.rejected, (state) => {
         state.isPromoLoaded = false;
-        toast('There was an error loading, please try refreshing the page');
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       });
   }
 });
