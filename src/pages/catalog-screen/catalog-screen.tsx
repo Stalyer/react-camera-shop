@@ -2,7 +2,7 @@ import {useState, useEffect, useMemo} from 'react';
 // import {useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPromoAction} from '../../store/api-actions';
-import {getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
+import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Promo from '../../components/promo/promo';
@@ -15,6 +15,7 @@ import {QueryParam, PRODUCTS_PER_PAGE} from '../../const';
 
 function CatalogScreen(): JSX.Element {
   const dispatch = useAppDispatch();
+  const isProductsLoaded = useAppSelector(getLoadedProductsStatus);
   const products = useAppSelector(getProducts);
   const productsTotalCount = useAppSelector(getProductsTotalCount);
   const promo = useAppSelector(getPromo);
@@ -36,6 +37,14 @@ function CatalogScreen(): JSX.Element {
   useEffect(() => {
     dispatch(fetchPromoAction());
   }, [dispatch]);
+
+  if (isProductsLoaded) {
+    return (
+      <>
+        Loading...
+      </>
+    );
+  }
 
   const handlePageLinkClick = (selectedItem: { selected: number }) => {
     const newOffset = (selectedItem.selected * PRODUCTS_PER_PAGE) % productsTotalCount;

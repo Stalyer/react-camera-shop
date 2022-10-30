@@ -16,6 +16,7 @@ import ProductRating from '../../components/product-rating/product-rating';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalAddReviewSuccess from '../../components/modal-add-review-success/modal-add-review-success';
 import {TabType} from '../../const';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function ProductScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -50,9 +51,7 @@ function ProductScreen(): JSX.Element {
 
   if (!product) {
     return (
-      <>
-        Not Found
-      </>
+      <NotFoundScreen />
     );
   }
 
