@@ -24,6 +24,8 @@ export enum QueryParam {
   Limit = '_limit'
 }
 
+export const DEFAULT_ID_PAGE = 1;
+
 export const PRODUCTS_PER_PAGE = 9;
 
 export const SLIDE_PER_SHOW = 3;

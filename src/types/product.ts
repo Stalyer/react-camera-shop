@@ -23,6 +23,7 @@ export type FetchReturnProducts = {
 }
 
 export type FetchQueryProducts = {
-  [QueryParam.Start]: number;
-  [QueryParam.End]: number;
+  [QueryParam.Start]?: number;
+  [QueryParam.End]?: number;
+  [QueryParam.Limit]?: number;
 }

@@ -1,10 +1,10 @@
 import {Link, useMatch} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, DEFAULT_ID_PAGE} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {getProduct} from '../../store/product-process/selectors';
 
 function Breadcrumbs(): JSX.Element {
-  const isCatalogRoute = useMatch(AppRoute.Catalog) !== null;
+  const isCatalogRoute = useMatch(`${AppRoute.Catalog}/page-:pageId`) !== null;
   const isProductRoute = useMatch(`${AppRoute.Product}/:productId`) !== null;
   const product = useAppSelector(getProduct);
 
@@ -26,7 +26,7 @@ function Breadcrumbs(): JSX.Element {
           </li>}
           {isProductRoute &&
           <li className="breadcrumbs__item">
-            <Link className="breadcrumbs__link" to={AppRoute.Catalog}>
+            <Link className="breadcrumbs__link" to={`${AppRoute.Catalog}/page-${DEFAULT_ID_PAGE}`}>
               Каталог
               <svg width="5" height="8" aria-hidden="true">
                 <use xlinkHref="#icon-arrow-mini"></use>

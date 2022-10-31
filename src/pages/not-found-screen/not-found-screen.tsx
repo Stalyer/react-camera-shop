@@ -10,7 +10,7 @@ function NotFoundScreen(): JSX.Element {
       <main>
         <div className="page-content">
           <section className="container not-found">
-            <h1>404. Страница не найдена</h1>
+            <h1>404 Not Found</h1>
             <Link to={AppRoute.Root}>Вернуться на главную страницу</Link>
           </section>
         </div>

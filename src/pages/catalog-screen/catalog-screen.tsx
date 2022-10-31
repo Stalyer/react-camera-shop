@@ -1,5 +1,5 @@
-import {useState, useEffect, useMemo} from 'react';
-// import {useParams} from 'react-router-dom';
+import {useEffect, useMemo} from 'react';
+import {useParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPromoAction} from '../../store/api-actions';
 import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
@@ -12,27 +12,30 @@ import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import ProductCard from '../../components/product-card/product-card';
 import Pagination from '../../components/pagination/pagination';
 import {QueryParam, PRODUCTS_PER_PAGE} from '../../const';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+
+const calcOffsetProduts = (currentPageId: number) => (currentPageId - 1) * PRODUCTS_PER_PAGE;
 
 function CatalogScreen(): JSX.Element {
   const dispatch = useAppDispatch();
+  const {pageId} = useParams();
   const isProductsLoaded = useAppSelector(getLoadedProductsStatus);
   const products = useAppSelector(getProducts);
   const productsTotalCount = useAppSelector(getProductsTotalCount);
   const promo = useAppSelector(getPromo);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [productsStartOffset, setProductsOffset] = useState(0);
-  const productsEndOffset = productsStartOffset + PRODUCTS_PER_PAGE;
-
-  const pageCount = useMemo(() => (
-    Math.ceil(productsTotalCount / PRODUCTS_PER_PAGE)
-  ), [productsTotalCount]);
+  const productsStartOffset = calcOffsetProduts(Number(pageId));
+  const currentPage = Number(pageId);
 
   useEffect(() => {
     dispatch(fetchCamerasAction({
       [QueryParam.Start]: productsStartOffset,
-      [QueryParam.End]: productsEndOffset
+      [QueryParam.Limit]: PRODUCTS_PER_PAGE
     }));
-  }, [dispatch, productsStartOffset, productsEndOffset]);
+  }, [dispatch, productsStartOffset, pageId]);
+
+  const totalPages = useMemo(() => (
+    Math.ceil(productsTotalCount / PRODUCTS_PER_PAGE)
+  ), [productsTotalCount]);
 
   useEffect(() => {
     dispatch(fetchPromoAction());
@@ -46,11 +49,11 @@ function CatalogScreen(): JSX.Element {
     );
   }
 
-  const handlePageLinkClick = (selectedItem: { selected: number }) => {
-    const newOffset = (selectedItem.selected * PRODUCTS_PER_PAGE) % productsTotalCount;
-    setProductsOffset(newOffset);
-    setCurrentPage(selectedItem.selected);
-  };
+  if (currentPage > totalPages || currentPage <= 0) {
+    return (
+      <NotFoundScreen />
+    );
+  }
 
   return (
     <>
@@ -77,7 +80,7 @@ function CatalogScreen(): JSX.Element {
                       />
                     ))}
                   </div>
-                  <Pagination currentPage={currentPage} pageCount={pageCount} onPageChange={handlePageLinkClick} />
+                  <Pagination currentPage={currentPage} totalPages={totalPages} />
                 </div>
               </div>
             </div>

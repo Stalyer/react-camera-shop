@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, DEFAULT_ID_PAGE} from '../../const';
 
 const MENU_ROUTES = [
   {
     title: 'Каталог',
-    link: AppRoute.Catalog
+    link: `${AppRoute.Catalog}/page-${DEFAULT_ID_PAGE}`
   },
   {
     title: 'Гарантии',

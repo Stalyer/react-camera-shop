@@ -13,7 +13,7 @@ function App(): JSX.Element {
         element={<MainScreen />}
       />
       <Route
-        path={AppRoute.Catalog}
+        path={`${AppRoute.Catalog}/page-:pageId`}
         element={<CatalogScreen />}
       />
       <Route

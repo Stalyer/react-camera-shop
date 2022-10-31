@@ -1,35 +1,34 @@
-import ReactPaginate from 'react-paginate';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 type PaginationProps = {
   currentPage: number;
-  pageCount: number;
-  onPageChange: (selectedItem: { selected: number }) => void;
+  totalPages: number;
 }
 
-function Pagination({currentPage, pageCount, onPageChange} : PaginationProps): JSX.Element {
+function Pagination({currentPage, totalPages} : PaginationProps): JSX.Element {
   return(
     <div className="pagination">
-      <ReactPaginate
-        previousLabel='Назад'
-        nextLabel='Далее'
-        pageClassName='pagination__item'
-        pageLinkClassName="pagination__link"
-        previousClassName="pagination__item"
-        previousLinkClassName="pagination__link pagination__link--text"
-        nextClassName="pagination__item"
-        nextLinkClassName="pagination__link pagination__link--text"
-        breakLabel="..."
-        breakClassName="pagination__item"
-        breakLinkClassName="pagination__link"
-        containerClassName="pagination__list"
-        activeLinkClassName="pagination__link--active"
-        pageCount={pageCount}
-        forcePage={currentPage}
-        onPageChange={onPageChange}
-        hrefBuilder={(page, count, selected) => page >= 1 && page <= count ? `/page-${page}` : '#'}
-        hrefAllControls
-        renderOnZeroPageCount={() => null}
-      />
+      <ul className="pagination__list">
+        {currentPage !== 1 &&
+        <li className="pagination__item">
+          <Link className="pagination__link pagination__link--text" to={`${AppRoute.Catalog}/page-${currentPage - 1}`}>Назад</Link>
+        </li>}
+        {Array.from({length: totalPages}, (_value, index) => {
+          const pageId = index + 1;
+          const activeClass = pageId === currentPage ? ' pagination__link--active' : '';
+
+          return (
+            <li className="pagination__item" key={index}>
+              <Link className={`pagination__link${activeClass}`} to={`${AppRoute.Catalog}/page-${pageId}`}>{pageId}</Link>
+            </li>
+          );
+        })}
+        {currentPage !== totalPages &&
+        <li className="pagination__item">
+          <Link className="pagination__link pagination__link--text" to={`${AppRoute.Catalog}/page-${currentPage + 1}`}>Далее</Link>
+        </li>}
+      </ul>
     </div>
   );
 }
