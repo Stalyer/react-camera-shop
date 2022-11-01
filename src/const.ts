@@ -35,6 +35,6 @@ export const REVIEW_PER_SHOW = 3;
 export const RATING_MAX = 5;
 
 export const enum TabType {
-  Сharacteristics = '#characteristics',
+  Characteristics = '#characteristics',
   Description = '#description',
 }

@@ -7,9 +7,7 @@ export const getProduct = (state: State): Product | null => state[NameSpace.Prod
 export const getLoadedProductStatus = (state: State): boolean => state[NameSpace.Product].isProductLoaded;
 
 export const getProductSimilar = (state: State): Product[] => state[NameSpace.Product].similar;
-export const getLoadedProductSimilarStatus = (state: State): boolean => state[NameSpace.Product].isProductSimilarLoaded;
 
 export const getProductReviews = (state: State): Review[] => state[NameSpace.Product].reviews;
-export const getLoadedProductReviewsStatus = (state: State): boolean => state[NameSpace.Product].isProductReviewsLoaded;
 
 export const getFormReviewSubmittedStatus = (state: State): boolean => state[NameSpace.Product].isFormReviewSubmitted;

@@ -7,9 +7,7 @@ export type ProductProcess = {
   product: Product | null;
   isProductLoaded: boolean;
   similar: Product[];
-  isProductSimilarLoaded: boolean;
   reviews: Review[];
-  isProductReviewsLoaded: boolean;
   isFormReviewSubmitted: boolean;
 }
 
@@ -18,7 +16,6 @@ export type ProductsProcess = {
   isProductsLoaded: boolean;
   productsTotalCount: number;
   promo: PromoProduct | null;
-  isPromoLoaded: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

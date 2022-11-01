@@ -99,9 +99,9 @@ function ProductScreen(): JSX.Element {
                   <div className="tabs product__tabs">
                     <div className="tabs__controls product__tabs-controls">
                       <button
-                        className={`tabs__control${currentTabs === TabType.Сharacteristics ? ' is-active' : ''}`}
+                        className={`tabs__control${currentTabs === TabType.Characteristics ? ' is-active' : ''}`}
                         type="button"
-                        onClick={() => browserHistory.replace({hash: TabType.Сharacteristics})}
+                        onClick={() => browserHistory.replace({hash: TabType.Characteristics})}
                       >
                         Характеристики
                       </button>
@@ -114,7 +114,7 @@ function ProductScreen(): JSX.Element {
                       </button>
                     </div>
                     <div className="tabs__content">
-                      <div className={`tabs__element${currentTabs === TabType.Сharacteristics ? ' is-active' : ''}`}>
+                      <div className={`tabs__element${currentTabs === TabType.Characteristics ? ' is-active' : ''}`}>
                         <ul className="product__tabs-list">
                           <li className="item-list"><span className="item-list__title">Артикул:</span>
                             <p className="item-list__text">{vendorCode}</p>

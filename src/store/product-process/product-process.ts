@@ -8,9 +8,7 @@ const initialState: ProductProcess = {
   product: null,
   isProductLoaded: false,
   similar: [],
-  isProductSimilarLoaded: false,
   reviews: [],
-  isProductReviewsLoaded: false,
   isFormReviewSubmitted: false
 };
 
@@ -32,27 +30,17 @@ export const productProcess = createSlice({
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
-      .addCase(fetchCameraSimilarAction.pending, (state) => {
-        state.isProductSimilarLoaded = true;
-      })
       .addCase(fetchCameraSimilarAction.fulfilled, (state, action) => {
         state.similar = action.payload;
-        state.isProductSimilarLoaded = false;
       })
-      .addCase(fetchCameraSimilarAction.rejected, (state) => {
-        state.isProductSimilarLoaded = false;
+      .addCase(fetchCameraSimilarAction.rejected, () => {
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
-      .addCase(fetchCameraReviewsAction.pending, (state) => {
-        state.isProductReviewsLoaded = true;
-      })
       .addCase(fetchCameraReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        state.isProductReviewsLoaded = false;
       })
-      .addCase(fetchCameraReviewsAction.rejected, (state) => {
-        state.isProductReviewsLoaded = false;
+      .addCase(fetchCameraReviewsAction.rejected, () => {
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 

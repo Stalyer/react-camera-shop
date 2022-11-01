@@ -15,7 +15,6 @@ describe('Reducer: products', () => {
       isProductsLoaded: false,
       productsTotalCount: 0,
       promo: null,
-      isPromoLoaded: false
     };
   });
 
@@ -26,7 +25,6 @@ describe('Reducer: products', () => {
         isProductsLoaded: false,
         productsTotalCount: 0,
         promo: null,
-        isPromoLoaded: false
       });
   });
 
@@ -46,17 +44,9 @@ describe('Reducer: products', () => {
   });
 
   describe('fetchPromoAction test', () => {
-    it('should change status isPromoLoaded while waiting for promoProduct to load', () => {
-      expect(productsProcess.reducer(state, {type: fetchPromoAction.pending.type}))
-        .toEqual({...state, isPromoLoaded: true});
-    });
     it('should update promoProduct', () => {
       expect(productsProcess.reducer(state, {type: fetchPromoAction.fulfilled.type, payload: fakePromoProduct}))
         .toEqual({...state, promo: fakePromoProduct});
-    });
-    it('should change status isPromoLoaded on error', () => {
-      expect(productsProcess.reducer(state, {type: fetchPromoAction.rejected.type}))
-        .toEqual({...state, isPromoLoaded: false});
     });
   });
 

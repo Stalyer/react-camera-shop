@@ -22,15 +22,12 @@ const fakeStore = mockStore({
     isProductsLoaded: false,
     productsTotalCount: 1,
     promo: null,
-    isPromoLoaded: false
   },
   [NameSpace.Product]: {
     product: fakeProduct,
     isProductLoaded: false,
     similar: [],
-    isProductSimilarLoaded: false,
     reviews: [],
-    isProductReviewsLoaded: false,
     isFormReviewSubmitted: false
   }
 });

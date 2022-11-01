@@ -8,8 +8,7 @@ const initialState: ProductsProcess = {
   products: [],
   isProductsLoaded: false,
   productsTotalCount: 0,
-  promo: null,
-  isPromoLoaded: false
+  promo: null
 };
 
 export const productsProcess = createSlice({
@@ -31,15 +30,10 @@ export const productsProcess = createSlice({
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       })
 
-      .addCase(fetchPromoAction.pending, (state) => {
-        state.isPromoLoaded = true;
-      })
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
-        state.isPromoLoaded = false;
       })
-      .addCase(fetchPromoAction.rejected, (state) => {
-        state.isPromoLoaded = false;
+      .addCase(fetchPromoAction.rejected, () => {
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       });
   }

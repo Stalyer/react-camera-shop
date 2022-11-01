@@ -16,9 +16,7 @@ describe('Reducer: product', () => {
       product: null,
       isProductLoaded: false,
       similar: [],
-      isProductSimilarLoaded: false,
       reviews: [],
-      isProductReviewsLoaded: false,
       isFormReviewSubmitted: false
     };
   });
@@ -29,9 +27,7 @@ describe('Reducer: product', () => {
         product: null,
         isProductLoaded: false,
         similar: [],
-        isProductSimilarLoaded: false,
         reviews: [],
-        isProductReviewsLoaded: false,
         isFormReviewSubmitted: false
       });
   });
@@ -52,32 +48,16 @@ describe('Reducer: product', () => {
   });
 
   describe('fetchCameraSimilarAction test', () => {
-    it('should change status isProductSimilarLoaded while waiting for similar to load', () => {
-      expect(productProcess.reducer(state, {type: fetchCameraSimilarAction.pending.type}))
-        .toEqual({...state, isProductSimilarLoaded: true});
-    });
     it('should update similar', () => {
       expect(productProcess.reducer(state, {type: fetchCameraSimilarAction.fulfilled.type, payload: fakeProducts}))
         .toEqual({...state, similar: fakeProducts});
     });
-    it('should change status isProductSimilarLoaded on error', () => {
-      expect(productProcess.reducer(state, {type: fetchCameraSimilarAction.rejected.type}))
-        .toEqual({...state, isProductSimilarLoaded: false});
-    });
   });
 
   describe('fetchCameraReviewsAction test', () => {
-    it('should change status isProductReviewsLoaded while waiting for reviews to load', () => {
-      expect(productProcess.reducer(state, {type: fetchCameraReviewsAction.pending.type}))
-        .toEqual({...state, isProductReviewsLoaded: true});
-    });
     it('should update reviews', () => {
       expect(productProcess.reducer(state, {type: fetchCameraReviewsAction.fulfilled.type, payload: fakeReviews}))
         .toEqual({...state, reviews: fakeReviews});
-    });
-    it('should change status isProductReviewsLoaded on error', () => {
-      expect(productProcess.reducer(state, {type: fetchCameraReviewsAction.rejected.type}))
-        .toEqual({...state, isProductReviewsLoaded: false});
     });
   });
 
