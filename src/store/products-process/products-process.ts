@@ -1,14 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {ProductsProcess} from '../../types/state';
-import {fetchCamerasAction, fetchPromoAction} from '../api-actions';
+import {fetchCamerasAction, fetchPromoAction, fetchSearchCamerasAction} from '../api-actions';
 import {toast} from 'react-toastify';
 
 const initialState: ProductsProcess = {
   products: [],
   isProductsLoaded: false,
   productsTotalCount: 0,
-  promo: null
+  promo: null,
+  foundProducts: []
 };
 
 export const productsProcess = createSlice({
@@ -34,6 +35,13 @@ export const productsProcess = createSlice({
         state.promo = action.payload;
       })
       .addCase(fetchPromoAction.rejected, () => {
+        toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
+      })
+
+      .addCase(fetchSearchCamerasAction.fulfilled, (state, action) => {
+        state.foundProducts = action.payload;
+      })
+      .addCase(fetchSearchCamerasAction.rejected, () => {
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
       });
   }

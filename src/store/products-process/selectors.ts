@@ -8,3 +8,5 @@ export const getProductsTotalCount = (state: State): number => state[NameSpace.P
 export const getLoadedProductsStatus = (state: State): boolean => state[NameSpace.Products].isProductsLoaded;
 
 export const getPromo = (state: State): PromoProduct | null => state[NameSpace.Products].promo;
+
+export const getFoundProducts = (state: State): Product[] => state[NameSpace.Products].foundProducts;

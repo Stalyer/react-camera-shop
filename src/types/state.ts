@@ -16,6 +16,7 @@ export type ProductsProcess = {
   isProductsLoaded: boolean;
   productsTotalCount: number;
   promo: PromoProduct | null;
+  foundProducts: Product[];
 }
 
 export type State = ReturnType<typeof store.getState>;

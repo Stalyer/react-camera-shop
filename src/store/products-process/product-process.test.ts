@@ -15,6 +15,7 @@ describe('Reducer: products', () => {
       isProductsLoaded: false,
       productsTotalCount: 0,
       promo: null,
+      foundProducts: []
     };
   });
 

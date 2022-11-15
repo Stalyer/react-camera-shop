@@ -22,6 +22,18 @@ export const fetchCamerasAction = createAsyncThunk<FetchReturnProducts, FetchQue
   },
 );
 
+export const fetchSearchCamerasAction = createAsyncThunk<Product[], FetchQueryProducts | undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'dataProducts/fetchSearchCameras',
+  async (params, {dispatch, extra: api}) => {
+    const {data} = await api.get<Product[]>(APIRoute.Cameras, {params});
+    return data;
+  },
+);
+
 export const fetchPromoAction = createAsyncThunk<PromoProduct, undefined, {
   dispatch: AppDispatch;
   state: State;

@@ -21,7 +21,8 @@ export enum NameSpace {
 export enum QueryParam {
   Start = '_start',
   End = '_end',
-  Limit = '_limit'
+  Limit = '_limit',
+  NameLike = 'name_like'
 }
 
 export const DEFAULT_ID_PAGE = 1;
@@ -31,6 +32,8 @@ export const PRODUCTS_PER_PAGE = 9;
 export const SLIDE_PER_SHOW = 3;
 
 export const REVIEW_PER_SHOW = 3;
+
+export const SEARCH_LIMIT = 10;
 
 export const RATING_MAX = 5;
 
