@@ -1,5 +1,5 @@
 import {useEffect, useMemo} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useSearchParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPromoAction} from '../../store/api-actions';
 import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
@@ -19,6 +19,7 @@ const calcOffsetProduts = (currentPageId: number) => (currentPageId - 1) * PRODU
 function CatalogScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const {pageId} = useParams();
+  const [searchParams] = useSearchParams();
   const isProductsLoaded = useAppSelector(getLoadedProductsStatus);
   const products = useAppSelector(getProducts);
   const productsTotalCount = useAppSelector(getProductsTotalCount);
@@ -29,9 +30,11 @@ function CatalogScreen(): JSX.Element {
   useEffect(() => {
     dispatch(fetchCamerasAction({
       [QueryParam.Start]: productsStartOffset,
-      [QueryParam.Limit]: PRODUCTS_PER_PAGE
+      [QueryParam.Limit]: PRODUCTS_PER_PAGE,
+      [QueryParam.Sort]: searchParams.get(QueryParam.Sort),
+      [QueryParam.Order]: searchParams.get(QueryParam.Order)
     }));
-  }, [dispatch, productsStartOffset, pageId]);
+  }, [dispatch, productsStartOffset, pageId, searchParams]);
 
   const totalPages = useMemo(() => (
     Math.ceil(productsTotalCount / PRODUCTS_PER_PAGE)

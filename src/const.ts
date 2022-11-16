@@ -22,7 +22,19 @@ export enum QueryParam {
   Start = '_start',
   End = '_end',
   Limit = '_limit',
-  NameLike = 'name_like'
+  NameLike = 'name_like',
+  Sort = '_sort',
+  Order = '_order'
+}
+
+export enum SortType {
+  Price = 'price',
+  Rating = 'rating'
+}
+
+export enum SortOrder {
+  Asc = 'asc',
+  Desc = 'desc'
 }
 
 export const DEFAULT_ID_PAGE = 1;

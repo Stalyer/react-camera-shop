@@ -27,4 +27,6 @@ export type FetchQueryProducts = {
   [QueryParam.End]?: number;
   [QueryParam.Limit]?: number;
   [QueryParam.NameLike]?: string;
+  [QueryParam.Sort]?: string | null;
+  [QueryParam.Order]?: string | null;
 }
