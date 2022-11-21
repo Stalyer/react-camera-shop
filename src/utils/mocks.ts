@@ -13,6 +13,11 @@ export const makeFakeStore = store({
     isProductsLoaded: false,
     productsTotalCount: 0,
     promo: null,
+    foundProducts: [],
+    productsPriceRange: {
+      minPrice: 0,
+      maxPrice: 0
+    }
   },
   [NameSpace.Product]: {
     product: null,
@@ -25,7 +30,7 @@ export const makeFakeStore = store({
 
 export const makeFakeProducts = (): Product[] => ([{
   id: datatype.number(100),
-  name: lorem.word(7),
+  name: lorem.slug(7),
   vendorCode: lorem.word(4),
   type: lorem.word(5),
   category: lorem.word(5),
@@ -42,7 +47,7 @@ export const makeFakeProducts = (): Product[] => ([{
 
 export const makeFakeProduct = (): Product => ({
   id: datatype.number(100),
-  name: lorem.word(7),
+  name: lorem.slug(10),
   vendorCode: lorem.word(4),
   type: lorem.word(5),
   category: lorem.word(5),
@@ -59,7 +64,7 @@ export const makeFakeProduct = (): Product => ({
 
 export const makeFakePromoProduct = (): PromoProduct => ({
   id: datatype.number(100),
-  name: lorem.word(7),
+  name: lorem.slug(7),
   previewImg: image.imageUrl(),
   previewImg2x: image.imageUrl(),
   previewImgWebp: image.imageUrl(),

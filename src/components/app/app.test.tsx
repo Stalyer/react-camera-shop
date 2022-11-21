@@ -23,7 +23,12 @@ const fakeStore = mockStore({
     products: fakeProducts,
     isProductsLoaded: false,
     productsTotalCount: 1,
-    promo: fakePromoProduct ,
+    promo: fakePromoProduct,
+    foundProducts: [],
+    productsPriceRange: {
+      minPrice: 0,
+      maxPrice: 0
+    }
   },
   [NameSpace.Product]: {
     product: fakeProduct,

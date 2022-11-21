@@ -4,53 +4,58 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createAPI} from '../../services/api';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import {makeFakeProduct, makeFakeProducts, makeFakePromoProduct, makeFakeReviews} from '../../utils/mocks';
-import HistoryRouter from '../../components/history-router/history-router';
+import userEvent from '@testing-library/user-event';
+import HistoryRouter from '../history-router/history-router';
 import {NameSpace} from '../../const';
-import CatalogScreen from './catalog-screen';
+import CatalogFilterPrice from './catalog-filter-price';
 
 const api = createAPI();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore(middlewares);
 const history = createMemoryHistory();
-const fakeProducts = makeFakeProducts();
-const fakeProduct = makeFakeProduct();
-const fakePromoProduct = makeFakePromoProduct();
-const fakeReviews = makeFakeReviews();
 
 const fakeStore = mockStore({
   [NameSpace.Products]: {
-    products: fakeProducts,
+    products: [],
     isProductsLoaded: false,
     productsTotalCount: 1,
-    promo: fakePromoProduct,
+    promo: null,
     foundProducts: [],
     productsPriceRange: {
-      minPrice: 0,
-      maxPrice: 0
+      minPrice: 2000,
+      maxPrice: 10000
     }
-  },
-  [NameSpace.Product]: {
-    product: fakeProduct,
-    isProductLoaded: false,
-    similar: fakeProducts,
-    reviews: fakeReviews,
-    isFormReviewSubmitted: false
   }
 });
 
 const fakeApp = (
   <Provider store={fakeStore}>
     <HistoryRouter history={history}>
-      <CatalogScreen />
+      <CatalogFilterPrice />
     </HistoryRouter>
   </Provider>
 );
 
-describe('Component: CatalogScreen', () => {
+describe('Component: CatalogFilterPrice', () => {
   it('should render correctly', () => {
     render(fakeApp);
 
-    expect(screen.getByText(new RegExp(fakeProducts[0].name, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(/Цена/i)).toBeInTheDocument();
+  });
+
+  it('should correctly input to price min', async () => {
+    render(fakeApp);
+
+    await userEvent.type(screen.getByTestId('input-price-min'), '2000');
+
+    expect(screen.getByTestId('input-price-min')).toHaveValue(2000);
+  });
+
+  it('should correctly input to price max', async () => {
+    render(fakeApp);
+
+    await userEvent.type(screen.getByTestId('input-price-max'), '2000');
+
+    expect(screen.getByTestId('input-price-max')).toHaveValue(2000);
   });
 });

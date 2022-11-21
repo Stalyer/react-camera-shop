@@ -4,51 +4,47 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createAPI} from '../../services/api';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import {makeFakeProduct, makeFakeProducts, makeFakePromoProduct, makeFakeReviews} from '../../utils/mocks';
-import HistoryRouter from '../../components/history-router/history-router';
+import {makeFakeProducts} from '../../utils/mocks';
+import HistoryRouter from '../history-router/history-router';
 import {NameSpace} from '../../const';
-import CatalogScreen from './catalog-screen';
+import FormSearch from './form-search';
 
 const api = createAPI();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore(middlewares);
 const history = createMemoryHistory();
 const fakeProducts = makeFakeProducts();
-const fakeProduct = makeFakeProduct();
-const fakePromoProduct = makeFakePromoProduct();
-const fakeReviews = makeFakeReviews();
 
 const fakeStore = mockStore({
   [NameSpace.Products]: {
-    products: fakeProducts,
+    products: [],
     isProductsLoaded: false,
     productsTotalCount: 1,
-    promo: fakePromoProduct,
-    foundProducts: [],
+    promo: null,
+    foundProducts: fakeProducts,
     productsPriceRange: {
       minPrice: 0,
       maxPrice: 0
     }
-  },
-  [NameSpace.Product]: {
-    product: fakeProduct,
-    isProductLoaded: false,
-    similar: fakeProducts,
-    reviews: fakeReviews,
-    isFormReviewSubmitted: false
   }
 });
 
 const fakeApp = (
   <Provider store={fakeStore}>
     <HistoryRouter history={history}>
-      <CatalogScreen />
+      <FormSearch />
     </HistoryRouter>
   </Provider>
 );
 
-describe('Component: CatalogScreen', () => {
+describe('Component: FormSearch', () => {
   it('should render correctly', () => {
+    render(fakeApp);
+
+    expect(screen.getByText(/Сбросить поиск/i)).toBeInTheDocument();
+  });
+
+  it('should render list correctly', () => {
     render(fakeApp);
 
     expect(screen.getByText(new RegExp(fakeProducts[0].name, 'i'))).toBeInTheDocument();

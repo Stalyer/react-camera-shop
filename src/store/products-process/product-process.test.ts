@@ -1,7 +1,7 @@
 import {productsProcess} from './products-process';
 import {ProductsProcess} from '../../types/state';
 import {makeFakeProducts, makeFakePromoProduct} from '../../utils/mocks';
-import {fetchCamerasAction, fetchPromoAction} from '../api-actions';
+import {fetchCamerasAction, fetchPriceCamerasAction, fetchSearchCamerasAction, fetchPromoAction} from '../api-actions';
 
 const fakeProducts = makeFakeProducts();
 const fakePromoProduct = makeFakePromoProduct();
@@ -53,10 +53,24 @@ describe('Reducer: products', () => {
     });
   });
 
+  describe('fetchPriceCamerasAction test', () => {
+    it('should update productsPriceRange', () => {
+      expect(productsProcess.reducer(state, {type: fetchPriceCamerasAction.fulfilled.type, payload: fakeProducts}))
+        .toEqual({...state, productsPriceRange: {minPrice: fakeProducts[0].price, maxPrice: fakeProducts[0].price}});
+    });
+  });
+
   describe('fetchPromoAction test', () => {
     it('should update promoProduct', () => {
       expect(productsProcess.reducer(state, {type: fetchPromoAction.fulfilled.type, payload: fakePromoProduct}))
         .toEqual({...state, promo: fakePromoProduct});
+    });
+  });
+
+  describe('fetchSearchCamerasAction test', () => {
+    it('should update foundProduct', () => {
+      expect(productsProcess.reducer(state, {type: fetchSearchCamerasAction.fulfilled.type, payload: fakeProducts}))
+        .toEqual({...state, foundProducts: fakeProducts});
     });
   });
 
