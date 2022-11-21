@@ -1,7 +1,7 @@
 import {useEffect, useMemo} from 'react';
 import {useParams, useSearchParams} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {fetchCamerasAction, fetchPromoAction} from '../../store/api-actions';
+import {fetchCamerasAction, fetchPriceCamerasAction, fetchPromoAction} from '../../store/api-actions';
 import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -11,8 +11,9 @@ import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import ProductCard from '../../components/product-card/product-card';
 import Pagination from '../../components/pagination/pagination';
-import {QueryParam, PRODUCTS_PER_PAGE} from '../../const';
+import {QueryParam, SortType, SortOrder, PRODUCTS_PER_PAGE} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import Loader from '../../components/loader/loader';
 
 const calcOffsetProduts = (currentPageId: number) => (currentPageId - 1) * PRODUCTS_PER_PAGE;
 
@@ -28,11 +29,26 @@ function CatalogScreen(): JSX.Element {
   const currentPage = Number(pageId);
 
   useEffect(() => {
+    dispatch(fetchPriceCamerasAction({
+      [QueryParam.Sort]: SortType.Price,
+      [QueryParam.Order]: SortOrder.Asc,
+      [QueryParam.Category]: searchParams.get(QueryParam.Category),
+      [QueryParam.Type]: searchParams.get(QueryParam.Type),
+      [QueryParam.Level]: searchParams.get(QueryParam.Level)
+    }));
+  });
+
+  useEffect(() => {
     dispatch(fetchCamerasAction({
       [QueryParam.Start]: productsStartOffset,
       [QueryParam.Limit]: PRODUCTS_PER_PAGE,
       [QueryParam.Sort]: searchParams.get(QueryParam.Sort),
-      [QueryParam.Order]: searchParams.get(QueryParam.Order)
+      [QueryParam.Order]: searchParams.get(QueryParam.Order),
+      [QueryParam.Category]: searchParams.get(QueryParam.Category),
+      [QueryParam.Type]: searchParams.get(QueryParam.Type),
+      [QueryParam.Level]: searchParams.get(QueryParam.Level),
+      [QueryParam.PriceMin]: searchParams.get(QueryParam.PriceMin),
+      [QueryParam.PriceMax]: searchParams.get(QueryParam.PriceMax)
     }));
   }, [dispatch, productsStartOffset, pageId, searchParams]);
 
@@ -44,15 +60,7 @@ function CatalogScreen(): JSX.Element {
     dispatch(fetchPromoAction());
   }, [dispatch]);
 
-  if (isProductsLoaded) {
-    return (
-      <>
-        Loading...
-      </>
-    );
-  }
-
-  if (currentPage > totalPages || currentPage <= 0) {
+  if ((currentPage > totalPages || currentPage < 1) && totalPages !== 0) {
     return (
       <NotFoundScreen />
     );
@@ -74,16 +82,21 @@ function CatalogScreen(): JSX.Element {
                   <CatalogFilter />
                 </div>
                 <div className="catalog__content">
-                  <CatalogSort />
-                  <div className="cards catalog__cards">
-                    {products.map((product) => (
-                      <ProductCard
-                        key={product.id.toString()}
-                        product={product}
-                      />
-                    ))}
-                  </div>
-                  <Pagination currentPage={currentPage} totalPages={totalPages} />
+                  {products.length > 0 && !isProductsLoaded &&
+                    <>
+                      <CatalogSort />
+                      <div className="cards catalog__cards">
+                        {products.map((product) => (
+                          <ProductCard
+                            key={product.id.toString()}
+                            product={product}
+                          />
+                        ))}
+                      </div>
+                      <Pagination currentPage={currentPage} totalPages={totalPages} />
+                    </>}
+                  {!products.length && !isProductsLoaded &&
+                    <p>По вашему запросу ничего не найдено</p>}
                 </div>
               </div>
             </div>
@@ -91,6 +104,8 @@ function CatalogScreen(): JSX.Element {
         </div>
       </main>
       <Footer />
+      {isProductsLoaded &&
+      <Loader />}
     </>
   );
 }

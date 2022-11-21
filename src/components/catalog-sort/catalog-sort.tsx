@@ -8,6 +8,9 @@ function CatalogSort(): JSX.Element {
   const handleSortButtonChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = evt.target;
     searchParams.set(name, value);
+    if(!searchParams.has(QueryParam.Order)) {
+      searchParams.set(QueryParam.Order, SortOrder.Asc);
+    }
     setSearchParams(searchParams);
   };
 

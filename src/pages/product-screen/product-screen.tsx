@@ -17,6 +17,7 @@ import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalAddReviewSuccess from '../../components/modal-add-review-success/modal-add-review-success';
 import {TabType} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import Loader from '../../components/loader/loader';
 
 function ProductScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -43,9 +44,7 @@ function ProductScreen(): JSX.Element {
 
   if (isProductLoaded) {
     return (
-      <>
-        Loading...
-      </>
+      <Loader />
     );
   }
 

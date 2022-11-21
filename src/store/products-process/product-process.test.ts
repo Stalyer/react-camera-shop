@@ -15,7 +15,11 @@ describe('Reducer: products', () => {
       isProductsLoaded: false,
       productsTotalCount: 0,
       promo: null,
-      foundProducts: []
+      foundProducts: [],
+      productsPriceRange: {
+        minPrice: 0,
+        maxPrice: 0
+      }
     };
   });
 
@@ -26,6 +30,11 @@ describe('Reducer: products', () => {
         isProductsLoaded: false,
         productsTotalCount: 0,
         promo: null,
+        foundProducts: [],
+        productsPriceRange: {
+          minPrice: 0,
+          maxPrice: 0
+        }
       });
   });
 

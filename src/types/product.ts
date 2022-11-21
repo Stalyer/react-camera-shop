@@ -29,4 +29,14 @@ export type FetchQueryProducts = {
   [QueryParam.NameLike]?: string;
   [QueryParam.Sort]?: string | null;
   [QueryParam.Order]?: string | null;
+  [QueryParam.PriceMin]?: string | null;
+  [QueryParam.PriceMax]?: string | null;
+  [QueryParam.Category]?: string | null;
+  [QueryParam.Type]?: string | null;
+  [QueryParam.Level]?: string | null;
+}
+
+export type ProductPriceRange = {
+  minPrice: number;
+  maxPrice: number;
 }

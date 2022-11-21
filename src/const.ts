@@ -24,7 +24,12 @@ export enum QueryParam {
   Limit = '_limit',
   NameLike = 'name_like',
   Sort = '_sort',
-  Order = '_order'
+  Order = '_order',
+  PriceMin = 'price_gte',
+  PriceMax = 'price_lte',
+  Type = 'type',
+  Category = 'category',
+  Level = 'level'
 }
 
 export enum SortType {
@@ -37,6 +42,14 @@ export enum SortOrder {
   Desc = 'desc'
 }
 
+export const FILTER_PARAM: string[] = [
+  QueryParam.PriceMin,
+  QueryParam.PriceMax,
+  QueryParam.Category,
+  QueryParam.Type,
+  QueryParam.Level
+];
+
 export const DEFAULT_ID_PAGE = 1;
 
 export const PRODUCTS_PER_PAGE = 9;
@@ -48,6 +61,8 @@ export const REVIEW_PER_SHOW = 3;
 export const SEARCH_LIMIT = 10;
 
 export const RATING_MAX = 5;
+
+export const CHANGE_DELAY = 1000;
 
 export const enum TabType {
   Characteristics = '#characteristics',
