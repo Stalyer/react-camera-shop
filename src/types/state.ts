@@ -18,6 +18,7 @@ export type ProductsProcess = {
   promo: PromoProduct | null;
   foundProducts: Product[];
   productsPriceRange: ProductPriceRange;
+  isFilterReset: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

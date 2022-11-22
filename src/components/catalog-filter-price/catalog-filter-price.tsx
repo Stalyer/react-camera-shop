@@ -1,11 +1,14 @@
 import {useState, useEffect} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {useAppSelector} from '../../hooks';
-import {getPriceProducts} from '../../store/products-process/selectors';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {getPriceProducts, getIsFilterReset} from '../../store/products-process/selectors';
+import {changeIsFilterReset} from '../../store/products-process/products-process';
 import {QueryParam, CHANGE_DELAY} from '../../const';
 
 function CatalogFilterPrice(): JSX.Element {
+  const dispatch = useAppDispatch();
   const priceProducts = useAppSelector(getPriceProducts);
+  const isFilterReset = useAppSelector(getIsFilterReset);
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentInputPrice, setCurrentInputPrice] = useState<{minPrice: null | number; maxPrice: null | number}>({
     minPrice: Number(searchParams.get(QueryParam.PriceMin)) ? Number(searchParams.get(QueryParam.PriceMin)) : null,
@@ -27,14 +30,19 @@ function CatalogFilterPrice(): JSX.Element {
   }, [isUpdatePrice, currentInputPrice, priceProducts, searchParams, setSearchParams]);
 
   useEffect(() => {
+    if(isFilterReset) {
+      setCurrentInputPrice({minPrice: null, maxPrice: null});
+      dispatch(changeIsFilterReset(false));
+    }
+
     const changeRangePrice = setTimeout(() => {
-      if(currentInputPrice.minPrice && currentInputPrice.maxPrice) {
+      if(currentInputPrice.minPrice !== null && currentInputPrice.maxPrice !== null) {
         if(currentInputPrice.minPrice > currentInputPrice.maxPrice) {
           setCurrentInputPrice({...currentInputPrice, maxPrice: currentInputPrice.minPrice});
         }
       }
 
-      if(currentInputPrice.minPrice) {
+      if(currentInputPrice.minPrice !== null) {
         if(currentInputPrice.minPrice < priceProducts.minPrice) {
           setCurrentInputPrice({...currentInputPrice, minPrice: priceProducts.minPrice});
         }
@@ -43,22 +51,23 @@ function CatalogFilterPrice(): JSX.Element {
         }
       }
 
-      if(currentInputPrice.maxPrice) {
+      if(currentInputPrice.maxPrice !== null) {
         if(currentInputPrice.maxPrice > priceProducts.maxPrice) {
           setCurrentInputPrice({...currentInputPrice, maxPrice: priceProducts.maxPrice});
         }
-        if(currentInputPrice.maxPrice < priceProducts.minPrice) {
+        if(currentInputPrice.maxPrice < priceProducts.minPrice && currentInputPrice.minPrice === null) {
           setCurrentInputPrice({...currentInputPrice, maxPrice: priceProducts.minPrice});
         }
       }
 
-      if(currentInputPrice.minPrice || currentInputPrice.maxPrice) {
+      if(currentInputPrice.minPrice !== null || currentInputPrice.maxPrice !== null) {
         setIsUpdatePrice(true);
       }
+
     }, CHANGE_DELAY);
 
     return () => clearTimeout(changeRangePrice);
-  }, [currentInputPrice, priceProducts]);
+  }, [currentInputPrice, priceProducts, isFilterReset, dispatch]);
 
   return(
     <fieldset className="catalog-filter__block">

@@ -13,13 +13,18 @@ const initialState: ProductsProcess = {
   productsPriceRange: {
     minPrice: 0,
     maxPrice: 0
-  }
+  },
+  isFilterReset: false
 };
 
 export const productsProcess = createSlice({
   name: NameSpace.Products,
   initialState,
-  reducers: {},
+  reducers: {
+    changeIsFilterReset: (state, action) => {
+      state.isFilterReset = action.payload as boolean;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasAction.pending, (state) => {
@@ -59,3 +64,5 @@ export const productsProcess = createSlice({
       });
   }
 });
+
+export const {changeIsFilterReset} = productsProcess.actions;

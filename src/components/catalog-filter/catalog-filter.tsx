@@ -1,13 +1,16 @@
 import {useSearchParams} from 'react-router-dom';
+import {useAppDispatch} from '../../hooks';
 import CatalogFilterPrice from '../catalog-filter-price/catalog-filter-price';
 import CatalogFilterCheckbox from '../catalog-filter-checkbox/catalog-filter-checkbox';
+import {changeIsFilterReset} from '../../store/products-process/products-process';
 import {FILTER_PARAM} from '../../const';
 
 function CatalogFilter(): JSX.Element {
+  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const handleResetBtnClick = () => {
     const newSearchParams = Array.from(searchParams.entries()).filter(([key]) => !FILTER_PARAM.includes(key));
+    dispatch(changeIsFilterReset(true));
     setSearchParams(newSearchParams);
   };
 

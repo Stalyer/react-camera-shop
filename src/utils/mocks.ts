@@ -17,7 +17,8 @@ export const makeFakeStore = store({
     productsPriceRange: {
       minPrice: 0,
       maxPrice: 0
-    }
+    },
+    isFilterReset: false
   },
   [NameSpace.Product]: {
     product: null,

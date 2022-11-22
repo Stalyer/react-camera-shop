@@ -1,4 +1,4 @@
-import {productsProcess} from './products-process';
+import {productsProcess, changeIsFilterReset} from './products-process';
 import {ProductsProcess} from '../../types/state';
 import {makeFakeProducts, makeFakePromoProduct} from '../../utils/mocks';
 import {fetchCamerasAction, fetchPriceCamerasAction, fetchSearchCamerasAction, fetchPromoAction} from '../api-actions';
@@ -19,7 +19,8 @@ describe('Reducer: products', () => {
       productsPriceRange: {
         minPrice: 0,
         maxPrice: 0
-      }
+      },
+      isFilterReset: false
     };
   });
 
@@ -34,7 +35,8 @@ describe('Reducer: products', () => {
         productsPriceRange: {
           minPrice: 0,
           maxPrice: 0
-        }
+        },
+        isFilterReset: false
       });
   });
 
@@ -72,6 +74,11 @@ describe('Reducer: products', () => {
       expect(productsProcess.reducer(state, {type: fetchSearchCamerasAction.fulfilled.type, payload: fakeProducts}))
         .toEqual({...state, foundProducts: fakeProducts});
     });
+  });
+
+  it('should change the isFilterReset', () => {
+    expect(productsProcess.reducer(state, changeIsFilterReset(true)))
+      .toEqual({...state, isFilterReset: true});
   });
 
 });

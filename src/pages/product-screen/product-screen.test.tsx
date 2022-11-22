@@ -28,7 +28,8 @@ const fakeStore = mockStore({
     productsPriceRange: {
       minPrice: 0,
       maxPrice: 0
-    }
+    },
+    isFilterReset: false
   },
   [NameSpace.Product]: {
     product: fakeProduct,

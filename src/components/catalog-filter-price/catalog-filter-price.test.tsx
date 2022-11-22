@@ -24,7 +24,8 @@ const fakeStore = mockStore({
     productsPriceRange: {
       minPrice: 2000,
       maxPrice: 10000
-    }
+    },
+    isFilterReset: false
   }
 });
 

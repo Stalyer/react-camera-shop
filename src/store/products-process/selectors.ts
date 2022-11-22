@@ -12,3 +12,5 @@ export const getPromo = (state: State): PromoProduct | null => state[NameSpace.P
 export const getFoundProducts = (state: State): Product[] => state[NameSpace.Products].foundProducts;
 
 export const getPriceProducts = (state: State): ProductPriceRange => state[NameSpace.Products].productsPriceRange;
+
+export const getIsFilterReset = (state: State): boolean => state[NameSpace.Products].isFilterReset;
