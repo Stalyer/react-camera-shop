@@ -1,6 +1,8 @@
 import {ChangeEvent} from 'react';
 import {useSearchParams} from 'react-router-dom';
+import {useAppDispatch} from '../../hooks';
 import {QueryParam} from '../../const';
+import {changeIsFilterActive} from '../../store/products-process/products-process';
 
 const FILTERS = [
   {
@@ -26,6 +28,7 @@ const FILTER_RESTRICTION = {
 };
 
 function CatalogFilterCheckbox(): JSX.Element {
+  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentSearchParamsValues = Array.from(searchParams.values());
   const isCheckDisabledCategory = currentSearchParamsValues.some((value) => FILTER_RESTRICTION.type.includes(value));
@@ -44,6 +47,7 @@ function CatalogFilterCheckbox(): JSX.Element {
     }
 
     setSearchParams(searchParams);
+    dispatch(changeIsFilterActive(true));
   };
 
   return(

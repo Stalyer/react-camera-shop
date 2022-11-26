@@ -1,8 +1,9 @@
 import {useEffect, useMemo} from 'react';
-import {useParams, useSearchParams} from 'react-router-dom';
+import {useParams, useSearchParams, useNavigate, useLocation} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPriceCamerasAction, fetchPromoAction} from '../../store/api-actions';
-import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo} from '../../store/products-process/selectors';
+import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo, getIsFilterActive} from '../../store/products-process/selectors';
+import {changeIsFilterActive} from '../../store/products-process/products-process';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Promo from '../../components/promo/promo';
@@ -11,7 +12,7 @@ import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import ProductCard from '../../components/product-card/product-card';
 import Pagination from '../../components/pagination/pagination';
-import {QueryParam, SortType, SortOrder, PRODUCTS_PER_PAGE} from '../../const';
+import {QueryParam, SortType, SortOrder, PRODUCTS_PER_PAGE, AppRoute} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
 
@@ -19,24 +20,34 @@ const calcOffsetProduts = (currentPageId: number) => (currentPageId - 1) * PRODU
 
 function CatalogScreen(): JSX.Element {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {pageId} = useParams();
   const [searchParams] = useSearchParams();
   const isProductsLoaded = useAppSelector(getLoadedProductsStatus);
+  const isFilterActive = useAppSelector(getIsFilterActive);
   const products = useAppSelector(getProducts);
   const productsTotalCount = useAppSelector(getProductsTotalCount);
   const promo = useAppSelector(getPromo);
   const productsStartOffset = calcOffsetProduts(Number(pageId));
   const currentPage = Number(pageId);
 
+  if(isFilterActive) {
+    if(currentPage > 1) {
+      navigate(`${AppRoute.Catalog}/page-1${location.search}`, {replace: true});
+    }
+    dispatch(changeIsFilterActive(false));
+  }
+
   useEffect(() => {
     dispatch(fetchPriceCamerasAction({
       [QueryParam.Sort]: SortType.Price,
       [QueryParam.Order]: SortOrder.Asc,
-      [QueryParam.Category]: searchParams.get(QueryParam.Category),
-      [QueryParam.Type]: searchParams.get(QueryParam.Type),
-      [QueryParam.Level]: searchParams.get(QueryParam.Level)
+      [QueryParam.Category]: searchParams.getAll(QueryParam.Category),
+      [QueryParam.Type]: searchParams.getAll(QueryParam.Type),
+      [QueryParam.Level]: searchParams.getAll(QueryParam.Level)
     }));
-  });
+  }, [dispatch, searchParams]);
 
   useEffect(() => {
     dispatch(fetchCamerasAction({
@@ -44,9 +55,9 @@ function CatalogScreen(): JSX.Element {
       [QueryParam.Limit]: PRODUCTS_PER_PAGE,
       [QueryParam.Sort]: searchParams.get(QueryParam.Sort),
       [QueryParam.Order]: searchParams.get(QueryParam.Order),
-      [QueryParam.Category]: searchParams.get(QueryParam.Category),
-      [QueryParam.Type]: searchParams.get(QueryParam.Type),
-      [QueryParam.Level]: searchParams.get(QueryParam.Level),
+      [QueryParam.Category]: searchParams.getAll(QueryParam.Category),
+      [QueryParam.Type]: searchParams.getAll(QueryParam.Type),
+      [QueryParam.Level]: searchParams.getAll(QueryParam.Level),
       [QueryParam.PriceMin]: searchParams.get(QueryParam.PriceMin),
       [QueryParam.PriceMax]: searchParams.get(QueryParam.PriceMax)
     }));

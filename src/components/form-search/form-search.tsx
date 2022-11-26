@@ -46,7 +46,7 @@ function FormSearch(): JSX.Element {
             onChange={handleSearchChange}
           />
         </label>
-        <ul className="form-search__select-list">
+        <ul className="form-search__select-list scroller">
           {foundProducts.map(({id, name}) => (
             <li
               className="form-search__select-item"

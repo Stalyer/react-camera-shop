@@ -1,4 +1,4 @@
-import {productsProcess, changeIsFilterReset} from './products-process';
+import {productsProcess, changeIsFilterReset, changeIsFilterActive} from './products-process';
 import {ProductsProcess} from '../../types/state';
 import {makeFakeProducts, makeFakePromoProduct} from '../../utils/mocks';
 import {fetchCamerasAction, fetchPriceCamerasAction, fetchSearchCamerasAction, fetchPromoAction} from '../api-actions';
@@ -16,11 +16,9 @@ describe('Reducer: products', () => {
       productsTotalCount: 0,
       promo: null,
       foundProducts: [],
-      productsPriceRange: {
-        minPrice: 0,
-        maxPrice: 0
-      },
-      isFilterReset: false
+      productsPriceRange: [],
+      isFilterReset: false,
+      isFilterActive: false
     };
   });
 
@@ -32,11 +30,9 @@ describe('Reducer: products', () => {
         productsTotalCount: 0,
         promo: null,
         foundProducts: [],
-        productsPriceRange: {
-          minPrice: 0,
-          maxPrice: 0
-        },
-        isFilterReset: false
+        productsPriceRange: [],
+        isFilterReset: false,
+        isFilterActive: false
       });
   });
 
@@ -58,7 +54,7 @@ describe('Reducer: products', () => {
   describe('fetchPriceCamerasAction test', () => {
     it('should update productsPriceRange', () => {
       expect(productsProcess.reducer(state, {type: fetchPriceCamerasAction.fulfilled.type, payload: fakeProducts}))
-        .toEqual({...state, productsPriceRange: {minPrice: fakeProducts[0].price, maxPrice: fakeProducts[0].price}});
+        .toEqual({...state, productsPriceRange: [fakeProducts[0].price]});
     });
   });
 
@@ -79,6 +75,11 @@ describe('Reducer: products', () => {
   it('should change the isFilterReset', () => {
     expect(productsProcess.reducer(state, changeIsFilterReset(true)))
       .toEqual({...state, isFilterReset: true});
+  });
+
+  it('should change the isFilterActive', () => {
+    expect(productsProcess.reducer(state, changeIsFilterActive(true)))
+      .toEqual({...state, isFilterActive: true});
   });
 
 });

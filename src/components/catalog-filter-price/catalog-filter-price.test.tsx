@@ -21,11 +21,9 @@ const fakeStore = mockStore({
     productsTotalCount: 1,
     promo: null,
     foundProducts: [],
-    productsPriceRange: {
-      minPrice: 2000,
-      maxPrice: 10000
-    },
-    isFilterReset: false
+    productsPriceRange: [2000, 10000],
+    isFilterReset: false,
+    isFilterActive: false
   }
 });
 
@@ -55,8 +53,8 @@ describe('Component: CatalogFilterPrice', () => {
   it('should correctly input to price max', async () => {
     render(fakeApp);
 
-    await userEvent.type(screen.getByTestId('input-price-max'), '2000');
+    await userEvent.type(screen.getByTestId('input-price-max'), '10000');
 
-    expect(screen.getByTestId('input-price-max')).toHaveValue(2000);
+    expect(screen.getByTestId('input-price-max')).toHaveValue(10000);
   });
 });

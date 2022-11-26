@@ -10,11 +10,9 @@ const initialState: ProductsProcess = {
   productsTotalCount: 0,
   promo: null,
   foundProducts: [],
-  productsPriceRange: {
-    minPrice: 0,
-    maxPrice: 0
-  },
-  isFilterReset: false
+  productsPriceRange: [],
+  isFilterReset: false,
+  isFilterActive: false
 };
 
 export const productsProcess = createSlice({
@@ -23,6 +21,9 @@ export const productsProcess = createSlice({
   reducers: {
     changeIsFilterReset: (state, action) => {
       state.isFilterReset = action.payload as boolean;
+    },
+    changeIsFilterActive: (state, action) => {
+      state.isFilterActive = action.payload as boolean;
     }
   },
   extraReducers(builder) {
@@ -41,9 +42,7 @@ export const productsProcess = createSlice({
       })
 
       .addCase(fetchPriceCamerasAction.fulfilled, (state, action) => {
-        const products = action.payload;
-        state.productsPriceRange.minPrice = products[0].price;
-        state.productsPriceRange.maxPrice = products[products.length - 1].price;
+        state.productsPriceRange = action.payload.map((product) => product.price);
       })
       .addCase(fetchPriceCamerasAction.rejected, () => {
         toast.error('При загрузке произошла ошибка, попробуйте обновить страницу');
@@ -65,4 +64,4 @@ export const productsProcess = createSlice({
   }
 });
 
-export const {changeIsFilterReset} = productsProcess.actions;
+export const {changeIsFilterReset, changeIsFilterActive} = productsProcess.actions;

@@ -22,10 +22,8 @@ const fakeStore = mockStore({
     productsTotalCount: 1,
     promo: null,
     foundProducts: fakeProducts,
-    productsPriceRange: {
-      minPrice: 0,
-      maxPrice: 0
-    },
+    productsPriceRange: [],
+    isFilterActive: false,
     isFilterReset: false
   }
 });
