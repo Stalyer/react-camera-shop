@@ -23,8 +23,8 @@ const fakeStore = mockStore({
     promo: null,
     foundProducts: fakeProducts,
     productsPriceRange: [],
-    isFilterActive: false,
-    isFilterReset: false
+    isFilterReset: false,
+    isFilterActive: false
   }
 });
 

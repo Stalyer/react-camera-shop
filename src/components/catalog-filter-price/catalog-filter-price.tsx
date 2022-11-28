@@ -20,13 +20,32 @@ function CatalogFilterPrice(): JSX.Element {
   const allPriceMax = priceProducts[priceProducts.length - 1];
 
   useEffect(() => {
+    if(
+      (searchParams.has(QueryParam.PriceMin) && currentInputPrice.min === null)
+      || (searchParams.has(QueryParam.PriceMax) && currentInputPrice.max === null)
+    ) {
+      if(currentInputPrice.min === null) {
+        searchParams.delete(QueryParam.PriceMin);
+      }
+
+      if(currentInputPrice.max === null) {
+        searchParams.delete(QueryParam.PriceMax);
+      }
+
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, currentInputPrice, setSearchParams]);
+
+  useEffect(() => {
     if(isUpdatePrice) {
       if(currentInputPrice.min) {
         searchParams.set(QueryParam.PriceMin, String(currentInputPrice.min));
       }
+
       if(currentInputPrice.max) {
         searchParams.set(QueryParam.PriceMax, String(currentInputPrice.max));
       }
+
       setIsUpdatePrice(false);
       setSearchParams(searchParams);
       dispatch(changeIsFilterActive(true));
@@ -34,13 +53,21 @@ function CatalogFilterPrice(): JSX.Element {
   }, [isUpdatePrice, currentInputPrice, priceProducts, searchParams, setSearchParams, dispatch]);
 
   useEffect(() => {
+    const inputMin = currentInputPrice.min;
+    const inputMax = currentInputPrice.max;
+
+    if(inputMin === 0) {
+      setCurrentInputPrice({...currentInputPrice, min: null});
+    }
+
+    if(inputMax === 0) {
+      setCurrentInputPrice({...currentInputPrice, max: null});
+    }
+
     if(isFilterReset) {
       setCurrentInputPrice({min: null, max: null});
       dispatch(changeIsFilterReset(false));
     }
-
-    const inputMin = currentInputPrice.min;
-    const inputMax = currentInputPrice.max;
 
     const changeRangePrice = setTimeout(() => {
       if(inputMin !== null && inputMax !== null) {
