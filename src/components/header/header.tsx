@@ -47,10 +47,11 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <FormSearch />
-        <Link className="header__basket-link" to={AppRoute.Basket}>
+        <Link className="header__basket-link" to={AppRoute.Cart}>
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
+          <span className="header__basket-count">3</span>
         </Link>
       </div>
     </header>

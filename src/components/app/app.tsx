@@ -3,6 +3,7 @@ import {AppRoute} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import CatalogScreen from '../../pages/catalog-screen/catalog-screen';
 import ProductScreen from '../../pages/product-screen/product-screen';
+import CartScreen from '../../pages/cart-screen/cart-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 
 function App(): JSX.Element {
@@ -19,6 +20,10 @@ function App(): JSX.Element {
       <Route
         path={`${AppRoute.Product}/:productId`}
         element={<ProductScreen />}
+      />
+      <Route
+        path={AppRoute.Cart}
+        element={<CartScreen />}
       />
       <Route
         path="*"

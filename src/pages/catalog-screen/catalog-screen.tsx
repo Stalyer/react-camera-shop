@@ -1,5 +1,7 @@
 import {useEffect, useMemo} from 'react';
 import {useParams, useSearchParams, useNavigate, useLocation} from 'react-router-dom';
+import FocusLock from 'react-focus-lock';
+import {RemoveScroll} from 'react-remove-scroll';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPriceCamerasAction, fetchPromoAction} from '../../store/api-actions';
 import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo, getIsFilterActive} from '../../store/products-process/selectors';
@@ -12,6 +14,8 @@ import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import ProductCard from '../../components/product-card/product-card';
 import Pagination from '../../components/pagination/pagination';
+import ModalAddItem from '../../components/modal-add-item/modal-add-item';
+import ModalAddItemSuccess from '../../components/modal-add-item-success/modal-add-item-success';
 import {QueryParam, SortType, SortOrder, PRODUCTS_PER_PAGE, AppRoute} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
@@ -113,8 +117,23 @@ function CatalogScreen(): JSX.Element {
             </div>
           </section>
         </div>
+
+        {false &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddItem />
+          </RemoveScroll>
+        </FocusLock>}
+
+        {false &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddItemSuccess />
+          </RemoveScroll>
+        </FocusLock>}
       </main>
       <Footer />
+
       {isProductsLoaded &&
       <Loader />}
     </>

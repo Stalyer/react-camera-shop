@@ -6,6 +6,7 @@ import {getProduct} from '../../store/product-process/selectors';
 function Breadcrumbs(): JSX.Element {
   const isCatalogRoute = useMatch(`${AppRoute.Catalog}/page-:pageId`) !== null;
   const isProductRoute = useMatch(`${AppRoute.Product}/:productId`) !== null;
+  const isCartRoute = useMatch(AppRoute.Cart) !== null;
   const product = useAppSelector(getProduct);
 
   return(
@@ -24,7 +25,7 @@ function Breadcrumbs(): JSX.Element {
           <li className="breadcrumbs__item">
             <span className="breadcrumbs__link breadcrumbs__link--active">Каталог</span>
           </li>}
-          {isProductRoute &&
+          {(isProductRoute || isCartRoute) &&
           <li className="breadcrumbs__item">
             <Link className="breadcrumbs__link" to={`${AppRoute.Catalog}/page-${DEFAULT_ID_PAGE}`}>
               Каталог
@@ -36,6 +37,10 @@ function Breadcrumbs(): JSX.Element {
           {isProductRoute &&
           <li className="breadcrumbs__item">
             <span className="breadcrumbs__link breadcrumbs__link--active">{product?.name}</span>
+          </li>}
+          {isCartRoute &&
+          <li className="breadcrumbs__item">
+            <span className="breadcrumbs__link breadcrumbs__link--active">Корзина</span>
           </li>}
         </ul>
       </div>

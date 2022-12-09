@@ -15,6 +15,8 @@ import Reviews from '../../components/reviews/reviews';
 import ProductRating from '../../components/product-rating/product-rating';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalAddReviewSuccess from '../../components/modal-add-review-success/modal-add-review-success';
+import ModalAddItem from '../../components/modal-add-item/modal-add-item';
+import ModalAddItemSuccess from '../../components/modal-add-item-success/modal-add-item-success';
 import {TabType} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
@@ -149,23 +151,36 @@ function ProductScreen(): JSX.Element {
             <Reviews reviews={productReviews} onAddReviewClick={() => setIsModalReviewActive(true)} />
           </div>}
         </div>
+        <UpBtn />
+
+        {isModalReviewActive &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddReview onClose={() => setIsModalReviewActive(false)} onSubmitSuccess={handleSumbitSuccess} />
+          </RemoveScroll>
+        </FocusLock>}
+
+        {isModalReviewSuccessActive &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddReviewSuccess onClose={() => setIsModalReviewSuccessActive(false)} />
+          </RemoveScroll>
+        </FocusLock>}
+
+        {false &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddItem />
+          </RemoveScroll>
+        </FocusLock>}
+
+        {false &&
+        <FocusLock>
+          <RemoveScroll>
+            <ModalAddItemSuccess />
+          </RemoveScroll>
+        </FocusLock>}
       </main>
-      <UpBtn />
-
-      {isModalReviewActive &&
-      <FocusLock>
-        <RemoveScroll>
-          <ModalAddReview onClose={() => setIsModalReviewActive(false)} onSubmitSuccess={handleSumbitSuccess} />
-        </RemoveScroll>
-      </FocusLock>}
-
-      {isModalReviewSuccessActive &&
-      <FocusLock>
-        <RemoveScroll>
-          <ModalAddReviewSuccess onClose={() => setIsModalReviewSuccessActive(false)} />
-        </RemoveScroll>
-      </FocusLock>}
-
       <Footer />
     </>
   );

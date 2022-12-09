@@ -1,5 +1,5 @@
 import {store} from '../store/index';
-import {Product} from './product';
+import {Product, CartProduct} from './product';
 import {PromoProduct} from './promo-product';
 import {Review} from './review';
 
@@ -20,6 +20,10 @@ export type ProductsProcess = {
   productsPriceRange: number[];
   isFilterReset: boolean;
   isFilterActive: boolean;
+}
+
+export type CartProcess = {
+  products: CartProduct[];
 }
 
 export type State = ReturnType<typeof store.getState>;

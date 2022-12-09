@@ -35,3 +35,8 @@ export type FetchQueryProducts = {
   [QueryParam.Type]?: string | string[] | null;
   [QueryParam.Level]?: string | string[] | null;
 }
+
+export type CartProduct = {
+  product: Product;
+  quantity: number;
+}
