@@ -36,8 +36,8 @@ function CatalogScreen(): JSX.Element {
   const productsStartOffset = calcOffsetProduts(Number(pageId));
   const currentPage = Number(pageId);
 
-  if(isFilterActive) {
-    if(currentPage > 1) {
+  if (isFilterActive) {
+    if (currentPage > 1) {
       navigate(`${AppRoute.Catalog}/page-1${location.search}`, {replace: true});
     }
     dispatch(changeIsFilterActive(false));
@@ -118,17 +118,17 @@ function CatalogScreen(): JSX.Element {
           </section>
         </div>
 
-        {false &&
+        {/* {false &&
         <FocusLock>
           <RemoveScroll>
             <ModalAddItem />
           </RemoveScroll>
-        </FocusLock>}
+        </FocusLock>} */}
 
         {false &&
         <FocusLock>
           <RemoveScroll>
-            <ModalAddItemSuccess />
+            <ModalAddItemSuccess onClose={() => null} />
           </RemoveScroll>
         </FocusLock>}
       </main>

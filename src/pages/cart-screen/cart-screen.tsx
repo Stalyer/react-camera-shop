@@ -61,12 +61,12 @@ function CartScreen(): JSX.Element {
             </div>
           </section>
         </div>
-        {false &&
+        {/* {false &&
         <FocusLock>
           <RemoveScroll>
             <ModalRemoveItem />
           </RemoveScroll>
-        </FocusLock>}
+        </FocusLock>} */}
 
         {false &&
         <FocusLock>

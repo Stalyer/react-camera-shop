@@ -20,15 +20,15 @@ function CatalogFilterPrice(): JSX.Element {
   const allPriceMax = priceProducts[priceProducts.length - 1];
 
   useEffect(() => {
-    if(
+    if (
       (searchParams.has(QueryParam.PriceMin) && currentInputPrice.min === null)
       || (searchParams.has(QueryParam.PriceMax) && currentInputPrice.max === null)
     ) {
-      if(currentInputPrice.min === null) {
+      if (currentInputPrice.min === null) {
         searchParams.delete(QueryParam.PriceMin);
       }
 
-      if(currentInputPrice.max === null) {
+      if (currentInputPrice.max === null) {
         searchParams.delete(QueryParam.PriceMax);
       }
 
@@ -37,12 +37,12 @@ function CatalogFilterPrice(): JSX.Element {
   }, [searchParams, currentInputPrice, setSearchParams]);
 
   useEffect(() => {
-    if(isUpdatePrice) {
-      if(currentInputPrice.min) {
+    if (isUpdatePrice) {
+      if (currentInputPrice.min) {
         searchParams.set(QueryParam.PriceMin, String(currentInputPrice.min));
       }
 
-      if(currentInputPrice.max) {
+      if (currentInputPrice.max) {
         searchParams.set(QueryParam.PriceMax, String(currentInputPrice.max));
       }
 
@@ -56,53 +56,53 @@ function CatalogFilterPrice(): JSX.Element {
     const inputMin = currentInputPrice.min;
     const inputMax = currentInputPrice.max;
 
-    if(inputMin === 0) {
+    if (inputMin === 0) {
       setCurrentInputPrice({...currentInputPrice, min: null});
     }
 
-    if(inputMax === 0) {
+    if (inputMax === 0) {
       setCurrentInputPrice({...currentInputPrice, max: null});
     }
 
-    if(isFilterReset) {
+    if (isFilterReset) {
       setCurrentInputPrice({min: null, max: null});
       dispatch(changeIsFilterReset(false));
     }
 
     const changeRangePrice = setTimeout(() => {
-      if(inputMin !== null && inputMax !== null) {
-        if(inputMin > inputMax) {
+      if (inputMin !== null && inputMax !== null) {
+        if (inputMin > inputMax) {
           setCurrentInputPrice({...currentInputPrice, max: inputMin});
         }
       }
 
-      if(inputMin !== null) {
+      if (inputMin !== null) {
         const currentProductPriceMin = priceProducts.find((price) => price >= inputMin);
-        if(currentProductPriceMin && inputMin < currentProductPriceMin) {
+        if (currentProductPriceMin && inputMin < currentProductPriceMin) {
           setCurrentInputPrice({...currentInputPrice, min: currentProductPriceMin});
         }
-        if(inputMin < allPriceMin) {
+        if (inputMin < allPriceMin) {
           setCurrentInputPrice({...currentInputPrice, min: allPriceMin});
         }
-        if(inputMin > allPriceMax) {
+        if (inputMin > allPriceMax) {
           setCurrentInputPrice({...currentInputPrice, min: allPriceMax});
         }
       }
 
-      if(inputMax !== null) {
+      if (inputMax !== null) {
         const currentMaxPriceIndex = priceProducts.findIndex((price) => price > inputMax);
-        if(currentMaxPriceIndex && inputMax > priceProducts[currentMaxPriceIndex - 1]) {
+        if (currentMaxPriceIndex && inputMax > priceProducts[currentMaxPriceIndex - 1]) {
           setCurrentInputPrice({...currentInputPrice, max: priceProducts[currentMaxPriceIndex - 1]});
         }
-        if(inputMax > allPriceMax) {
+        if (inputMax > allPriceMax) {
           setCurrentInputPrice({...currentInputPrice, max: allPriceMax});
         }
-        if(inputMax < allPriceMin && inputMin === null) {
+        if (inputMax < allPriceMin && inputMin === null) {
           setCurrentInputPrice({...currentInputPrice, max: allPriceMin});
         }
       }
 
-      if(inputMin !== null || inputMax !== null) {
+      if (inputMin !== null || inputMax !== null) {
         setIsUpdatePrice(true);
       }
 

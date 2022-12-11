@@ -15,7 +15,8 @@ export enum APIRoute {
 
 export enum NameSpace {
   Product = 'Product',
-  Products = 'Products'
+  Products = 'Products',
+  Cart = 'Cart'
 }
 
 export enum QueryParam {

@@ -11,7 +11,7 @@ const fakeStore = makeFakeStore;
 const fakeApp = (
   <Provider store={fakeStore}>
     <HistoryRouter history={history}>
-      <ModalAddItemSuccess />
+      <ModalAddItemSuccess onClose={jest.fn()} />
     </HistoryRouter>
   </Provider>
 );

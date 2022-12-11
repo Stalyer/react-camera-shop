@@ -1,17 +1,18 @@
 import {render, screen} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
-import {makeFakeStore} from '../../utils/mocks';
+import {makeFakeStore, makeFakeProduct} from '../../utils/mocks';
 import HistoryRouter from '../history-router/history-router';
 import ModalAddItem from './modal-add-item';
 
 const history = createMemoryHistory();
 const fakeStore = makeFakeStore;
+const fakeProduct = makeFakeProduct();
 
 const fakeApp = (
   <Provider store={fakeStore}>
     <HistoryRouter history={history}>
-      <ModalAddItem />
+      <ModalAddItem onClose={jest.fn()} onAddToCart={jest.fn()} product={fakeProduct} />
     </HistoryRouter>
   </Provider>
 );
