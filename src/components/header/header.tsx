@@ -1,4 +1,6 @@
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../hooks';
+import {getCartProducts} from '../../store/cart-process/selectors';
 import {AppRoute, DEFAULT_ID_PAGE} from '../../const';
 import FormSearch from '../form-search/form-search';
 
@@ -22,6 +24,9 @@ const MENU_ROUTES = [
 ];
 
 function Header(): JSX.Element {
+  const cartProducts = useAppSelector(getCartProducts);
+  const totalQuantity = cartProducts.reduce((total, {quantity}) => total + quantity, 0);
+
   return(
     <header className="header" id="header">
       <div className="container">
@@ -51,7 +56,8 @@ function Header(): JSX.Element {
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-          <span className="header__basket-count">3</span>
+          {totalQuantity > 0 &&
+          <span className="header__basket-count">{totalQuantity}</span>}
         </Link>
       </div>
     </header>
