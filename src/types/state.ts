@@ -24,6 +24,8 @@ export type ProductsProcess = {
 
 export type CartProcess = {
   products: CartProduct[];
+  modalProduct: Product | null;
+  isAddSuccess: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

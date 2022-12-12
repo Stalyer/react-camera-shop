@@ -6,13 +6,18 @@ import {Product} from '../../types/product';
 // import {toast} from 'react-toastify';
 
 const initialState: CartProcess = {
-  products: []
+  products: [],
+  modalProduct: null,
+  isAddSuccess: false,
 };
 
 export const cartProcess = createSlice({
   name: NameSpace.Cart,
   initialState,
   reducers: {
+    setModalProduct: (state, action) => {
+      state.modalProduct = action.payload as Product;
+    },
     addToCart: (state, action) => {
       const product = action.payload as Product;
       const cartFoundItem = state.products.find((item) => item.product.id === product.id);
@@ -25,11 +30,16 @@ export const cartProcess = createSlice({
           quantity: 1
         });
       }
+
+      state.isAddSuccess = true;
     },
     removeFromCart: (state, action) => {
       // const product = action.payload as Product;
       // const cartFoundItem = state.products.find((item) => item.product.id === product.id);
     },
+    setIsAddCartSuccess: (state, action) => {
+      state.isAddSuccess = action.payload as boolean;
+    }
   },
   // extraReducers(builder) {
   //   builder
@@ -39,4 +49,4 @@ export const cartProcess = createSlice({
   // }
 });
 
-export const {addToCart, removeFromCart} = cartProcess.actions;
+export const {setModalProduct, addToCart, removeFromCart, setIsAddCartSuccess} = cartProcess.actions;

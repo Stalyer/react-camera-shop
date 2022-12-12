@@ -1,4 +1,7 @@
 import {Link} from 'react-router-dom';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {setModalProduct} from '../../store/cart-process/cart-process';
+import {getCartProducts} from '../../store/cart-process/selectors';
 import {AppRoute} from '../../const';
 import {Product} from '../../types/product';
 import ProductRating from '../product-rating/product-rating';
@@ -9,6 +12,9 @@ type ProductCardProps = {
 }
 
 function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const cartProducts = useAppSelector(getCartProducts);
+  const cartFoundItem = cartProducts.find((item) => item.product.id === product.id);
   const {id, name, rating, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, reviewCount} = product;
 
   return(
@@ -39,7 +45,15 @@ function ProductCard({product, isActive}: ProductCardProps): JSX.Element {
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{price.toLocaleString('ru-RU')} ₽</p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить</button>
+        {!cartFoundItem &&
+        <button className="btn btn--purple product-card__btn" type="button" onClick={() => dispatch(setModalProduct(product))}>Купить</button>}
+        {cartFoundItem &&
+        <Link className="btn btn--purple-border product-card__btn product-card__btn--in-cart" to={AppRoute.Cart}>
+          <svg width="16" height="16" aria-hidden="true">
+            <use xlinkHref="#icon-basket"></use>
+          </svg>
+          В корзине
+        </Link>}
         <Link to={`${AppRoute.Product}/${id}`}>Подробнее</Link>
       </div>
     </div>

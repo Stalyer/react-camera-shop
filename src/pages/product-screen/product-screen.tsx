@@ -6,7 +6,8 @@ import browserHistory from '../../browser-history';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction} from '../../store/api-actions';
 import {getProduct, getLoadedProductStatus, getProductSimilar, getProductReviews} from '../../store/product-process/selectors';
-import {addToCart} from '../../store/cart-process/cart-process';
+import {setModalProduct} from '../../store/cart-process/cart-process';
+import {getModalProduct, getIsAddToCartSuccess} from '../../store/cart-process/selectors';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -21,7 +22,6 @@ import ModalAddItemSuccess from '../../components/modal-add-item-success/modal-a
 import {TabType} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Loader from '../../components/loader/loader';
-import {Product} from '../../types/product';
 
 function ProductScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -30,22 +30,16 @@ function ProductScreen(): JSX.Element {
   const product = useAppSelector(getProduct);
   const productSimilar = useAppSelector(getProductSimilar);
   const productReviews = useAppSelector(getProductReviews);
+  const modalProduct = useAppSelector(getModalProduct);
+  const isAddToCartSuccess = useAppSelector(getIsAddToCartSuccess);
   const {hash} = useLocation();
   const currentTabs = hash ? hash : TabType.Description;
   const [isModalReviewActive, setIsModalReviewActive] = useState(false);
   const [isModalReviewSuccessActive, setIsModalReviewSuccessActive] = useState(false);
-  const [modalProductActive, setModalProductActive] = useState<Product | null>(null);
-  const [isModalAddItemSuccessActive, setIsModalAddItemSuccessActive] = useState(false);
 
   const handleSumbitSuccess = () => {
     setIsModalReviewActive(false);
     setIsModalReviewSuccessActive(true);
-  };
-
-  const handleAddToCartClick = () => {
-    dispatch(addToCart(modalProductActive));
-    setModalProductActive(null);
-    setIsModalAddItemSuccessActive(true);
   };
 
   useEffect(() => {
@@ -101,7 +95,7 @@ function ProductScreen(): JSX.Element {
                     <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{reviewCount}</p>
                   </div>
                   <p className="product__price"><span className="visually-hidden">Цена:</span>{price.toLocaleString('ru-RU')} ₽</p>
-                  <button className="btn btn--purple" type="button" onClick={() => setModalProductActive(product)}>
+                  <button className="btn btn--purple" type="button" onClick={() => dispatch(setModalProduct(product))}>
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>
                     </svg>
@@ -177,17 +171,17 @@ function ProductScreen(): JSX.Element {
           </RemoveScroll>
         </FocusLock>}
 
-        {modalProductActive &&
+        {modalProduct &&
         <FocusLock>
           <RemoveScroll>
-            <ModalAddItem onClose={() => setModalProductActive(null)} onAddToCart={handleAddToCartClick} product={modalProductActive} />
+            <ModalAddItem />
           </RemoveScroll>
         </FocusLock>}
 
-        {isModalAddItemSuccessActive &&
+        {isAddToCartSuccess &&
         <FocusLock>
           <RemoveScroll>
-            <ModalAddItemSuccess onClose={() => setIsModalAddItemSuccessActive(false)} />
+            <ModalAddItemSuccess />
           </RemoveScroll>
         </FocusLock>}
       </main>

@@ -6,6 +6,7 @@ import {useAppSelector, useAppDispatch} from '../../hooks';
 import {fetchCamerasAction, fetchPriceCamerasAction, fetchPromoAction} from '../../store/api-actions';
 import {getLoadedProductsStatus, getProducts, getProductsTotalCount, getPromo, getIsFilterActive} from '../../store/products-process/selectors';
 import {changeIsFilterActive} from '../../store/products-process/products-process';
+import {getModalProduct, getIsAddToCartSuccess} from '../../store/cart-process/selectors';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Promo from '../../components/promo/promo';
@@ -33,6 +34,8 @@ function CatalogScreen(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsTotalCount = useAppSelector(getProductsTotalCount);
   const promo = useAppSelector(getPromo);
+  const modalProduct = useAppSelector(getModalProduct);
+  const isAddToCartSuccess = useAppSelector(getIsAddToCartSuccess);
   const productsStartOffset = calcOffsetProduts(Number(pageId));
   const currentPage = Number(pageId);
 
@@ -118,17 +121,17 @@ function CatalogScreen(): JSX.Element {
           </section>
         </div>
 
-        {/* {false &&
+        {modalProduct &&
         <FocusLock>
           <RemoveScroll>
             <ModalAddItem />
           </RemoveScroll>
-        </FocusLock>} */}
+        </FocusLock>}
 
-        {false &&
+        {isAddToCartSuccess &&
         <FocusLock>
           <RemoveScroll>
-            <ModalAddItemSuccess onClose={() => null} />
+            <ModalAddItemSuccess />
           </RemoveScroll>
         </FocusLock>}
       </main>
