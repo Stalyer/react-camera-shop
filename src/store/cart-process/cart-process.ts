@@ -34,8 +34,8 @@ export const cartProcess = createSlice({
       state.isAddSuccess = true;
     },
     removeFromCart: (state, action) => {
-      // const product = action.payload as Product;
-      // const cartFoundItem = state.products.find((item) => item.product.id === product.id);
+      const product = action.payload as Product;
+      state.products = state.products.filter((item) => item.product.id !== product.id);
     },
     setIsAddCartSuccess: (state, action) => {
       state.isAddSuccess = action.payload as boolean;
