@@ -1,6 +1,9 @@
+import {ChangeEvent} from 'react';
+import {useState, useEffect} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {CartProduct} from '../../types/product';
-import {setModalProduct} from '../../store/cart-process/cart-process';
+import {setModalProduct, setQuantityProduct, decreaseQuantityProduct, increaseQuantityProduct} from '../../store/cart-process/cart-process';
+import {CART_SINGLE_PRODUCT_MAX, CART_SINGLE_PRODUCT_MIN} from '../../const';
 
 type BasketItemProps = {
   cartProduct: CartProduct;
@@ -11,6 +14,48 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
   const {product, quantity} = cartProduct;
   const {id, name, vendorCode, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x} = product;
   const totalPrice = quantity * price;
+  const [currentQuantity, setCurrentQuantity] = useState(quantity);
+
+  useEffect(() => {
+    setCurrentQuantity(quantity);
+  }, [quantity]);
+
+  const handleQuantityChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(evt.target.value);
+
+    if (value < CART_SINGLE_PRODUCT_MIN) {
+      dispatch(setQuantityProduct({
+        product: product,
+        quantity: CART_SINGLE_PRODUCT_MIN
+      }));
+      return;
+    }
+
+    if (value > CART_SINGLE_PRODUCT_MAX) {
+      dispatch(setQuantityProduct({
+        product: product,
+        quantity: CART_SINGLE_PRODUCT_MAX
+      }));
+      return;
+    }
+
+    dispatch(setQuantityProduct({
+      product: product,
+      quantity: value
+    }));
+  };
+
+  const handleDecreaseQuantityClick = () => {
+    if(quantity > CART_SINGLE_PRODUCT_MIN) {
+      dispatch(decreaseQuantityProduct(product));
+    }
+  };
+
+  const handleIncreaseQuantityClick = () => {
+    if(quantity !== CART_SINGLE_PRODUCT_MAX) {
+      dispatch(increaseQuantityProduct(product));
+    }
+  };
 
   return(
     <li className="basket-item">
@@ -43,14 +88,32 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
       </div>
       <p className="basket-item__price"><span className="visually-hidden">Цена: </span>{price.toLocaleString('ru-RU')} ₽</p>
       <div className="quantity">
-        <button className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара">
+        <button
+          className="btn-icon btn-icon--prev"
+          aria-label="уменьшить количество товара"
+          onClick={handleDecreaseQuantityClick}
+          disabled={quantity === CART_SINGLE_PRODUCT_MIN}
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
         <label className="visually-hidden" htmlFor={`counter-${id}`}>{quantity}</label>
-        <input type="number" id={`counter-${id}`} value={quantity} min="1" max="99" aria-label="количество товара" />
-        <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">
+        <input
+          type="number"
+          id={`counter-${id}`}
+          value={currentQuantity}
+          min={CART_SINGLE_PRODUCT_MIN}
+          max={CART_SINGLE_PRODUCT_MAX}
+          aria-label="количество товара"
+          onChange={handleQuantityChange}
+        />
+        <button
+          className="btn-icon btn-icon--next"
+          aria-label="увеличить количество товара"
+          onClick={handleIncreaseQuantityClick}
+          disabled={quantity === CART_SINGLE_PRODUCT_MAX}
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>

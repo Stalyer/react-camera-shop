@@ -26,6 +26,10 @@ export type CartProcess = {
   products: CartProduct[];
   modalProduct: Product | null;
   isAddSuccess: boolean;
+  isFormOrderPending: boolean;
+  isFormOrderFulfilled: boolean;
+  coupon: string | null;
+  discount: number;
 }
 
 export type State = ReturnType<typeof store.getState>;

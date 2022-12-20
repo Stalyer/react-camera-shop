@@ -6,6 +6,8 @@ import {Product, FetchReturnProducts, FetchQueryProducts} from '../types/product
 import {PromoProduct} from '../types/promo-product';
 import {Review} from '../types/review';
 import {ReviewData} from '../types/review-data';
+import {CouponData} from '../types/coupon-data';
+import {OrderData} from '../types/order-data';
 
 export const fetchCamerasAction = createAsyncThunk<FetchReturnProducts, FetchQueryProducts | undefined, {
   dispatch: AppDispatch;
@@ -102,6 +104,30 @@ export const postReviewAction = createAsyncThunk<Review, ReviewData, {
   'dataProduct/postReview',
   async (review, {dispatch, extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.Reviews, review);
+    return data;
+  },
+);
+
+export const postCouponAction = createAsyncThunk<number, CouponData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'dataCart/postCoupon',
+  async (coupon, {dispatch, extra: api}) => {
+    const {data} = await api.post<number>(APIRoute.Coupons, coupon);
+    return data;
+  },
+);
+
+export const postOrderAction = createAsyncThunk<string, OrderData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'dataCart/postOrder',
+  async (order, {dispatch, extra: api}) => {
+    const {data} = await api.post<string>(APIRoute.Orders, order);
     return data;
   },
 );

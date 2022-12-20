@@ -69,3 +69,13 @@ export const enum TabType {
   Characteristics = '#characteristics',
   Description = '#description',
 }
+
+export const CART_SINGLE_PRODUCT_MAX = 99;
+
+export const CART_SINGLE_PRODUCT_MIN = 1;
+
+export const VALID_COUPONS = [
+  'camera-333',
+  'camera-444',
+  'camera-555'
+];
