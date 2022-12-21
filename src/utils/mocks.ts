@@ -1,7 +1,7 @@
 import {internet, datatype, lorem, image, date} from 'faker';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {NameSpace} from '../const';
-import {Product} from '../types/product';
+import {Product, CartProduct} from '../types/product';
 import {PromoProduct} from '../types/promo-product';
 import {Review} from '../types/review';
 
@@ -24,6 +24,15 @@ export const makeFakeStore = store({
     similar: [],
     reviews: [],
     isFormReviewSubmitted: false
+  },
+  [NameSpace.Cart]: {
+    products: [],
+    modalProduct: null,
+    isAddSuccess: false,
+    isFormOrderPending: false,
+    isFormOrderFulfilled: false,
+    coupon: null,
+    discount: 0
   }
 });
 
@@ -43,6 +52,26 @@ export const makeFakeProducts = (): Product[] => ([{
   previewImgWebp2x: image.imageUrl(),
   reviewCount: datatype.number(10),
 }] as Product[]);
+
+export const makeFakeCartProducts = (): CartProduct[] => ([{
+  product: {
+    id: datatype.number(100),
+    name: lorem.slug(7),
+    vendorCode: lorem.word(4),
+    type: lorem.word(5),
+    category: lorem.word(5),
+    description: lorem.words(15),
+    level: lorem.word(5),
+    rating: datatype.number(5),
+    price: datatype.number(1000),
+    previewImg: image.imageUrl(),
+    previewImg2x: image.imageUrl(),
+    previewImgWebp: image.imageUrl(),
+    previewImgWebp2x: image.imageUrl(),
+    reviewCount: datatype.number(10),
+  },
+  quantity: 1
+}] as CartProduct[]);
 
 export const makeFakeProduct = (): Product => ({
   id: datatype.number(100),

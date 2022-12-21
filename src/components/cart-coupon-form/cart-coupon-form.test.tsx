@@ -4,40 +4,37 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createAPI} from '../../services/api';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import {makeFakeProduct, makeFakeProducts, makeFakePromoProduct, makeFakeReviews} from '../../utils/mocks';
-import HistoryRouter from '../../components/history-router/history-router';
+import {makeFakeCartProducts} from '../../utils/mocks';
+import HistoryRouter from '../history-router/history-router';
+import CartCouponForm from './cart-coupon-form';
 import {NameSpace} from '../../const';
-import ProductScreen from './product-screen';
 
 const api = createAPI();
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore(middlewares);
 const history = createMemoryHistory();
-const fakeProducts = makeFakeProducts();
-const fakeProduct = makeFakeProduct();
-const fakePromoProduct = makeFakePromoProduct();
-const fakeReviews = makeFakeReviews();
+const fakeCartProducts = makeFakeCartProducts();
 
 const fakeStore = mockStore({
   [NameSpace.Products]: {
-    products: fakeProducts,
+    products: [],
     isProductsLoaded: false,
     productsTotalCount: 1,
-    promo: fakePromoProduct,
+    promo: null,
     foundProducts: [],
     productsPriceRange: [],
     isFilterReset: false,
     isFilterActive: false
   },
   [NameSpace.Product]: {
-    product: fakeProduct,
+    product: null,
     isProductLoaded: false,
-    similar: fakeProducts,
-    reviews: fakeReviews,
+    similar: [],
+    reviews: [],
     isFormReviewSubmitted: false
   },
   [NameSpace.Cart]: {
-    products: [],
+    products: fakeCartProducts,
     modalProduct: null,
     isAddSuccess: false,
     isFormOrderPending: false,
@@ -50,15 +47,15 @@ const fakeStore = mockStore({
 const fakeApp = (
   <Provider store={fakeStore}>
     <HistoryRouter history={history}>
-      <ProductScreen />
+      <CartCouponForm />
     </HistoryRouter>
   </Provider>
 );
 
-describe('Component: ProductScreen', () => {
+describe('Component: CartCouponForm', () => {
   it('should render correctly', () => {
     render(fakeApp);
 
-    expect(screen.getByText(new RegExp(fakeProduct.name, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(/Промокод принят!/i)).toBeInTheDocument();
   });
 });

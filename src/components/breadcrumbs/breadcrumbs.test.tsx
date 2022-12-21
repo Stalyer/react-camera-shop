@@ -33,6 +33,15 @@ const fakeStore = mockStore({
     similar: [],
     reviews: [],
     isFormReviewSubmitted: false
+  },
+  [NameSpace.Cart]: {
+    products: [],
+    modalProduct: null,
+    isAddSuccess: false,
+    isFormOrderPending: false,
+    isFormOrderFulfilled: false,
+    coupon: null,
+    discount: 0
   }
 });
 

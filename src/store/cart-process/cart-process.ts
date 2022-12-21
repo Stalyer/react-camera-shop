@@ -89,7 +89,7 @@ export const cartProcess = createSlice({
       .addCase(postOrderAction.pending, (state) => {
         state.isFormOrderPending = true;
       })
-      .addCase(postOrderAction.fulfilled, (state, action) => {
+      .addCase(postOrderAction.fulfilled, (state) => {
         state.isFormOrderPending = false;
         state.isFormOrderFulfilled = true;
         state.products = [];

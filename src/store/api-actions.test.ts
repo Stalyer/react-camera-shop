@@ -3,10 +3,12 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../services/api';
-import {fetchCamerasAction, fetchPriceCamerasAction, fetchSearchCamerasAction, fetchPromoAction, fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction, postReviewAction} from './api-actions';
+import {fetchCamerasAction, fetchPriceCamerasAction, fetchSearchCamerasAction, fetchPromoAction, fetchCameraAction, fetchCameraSimilarAction, fetchCameraReviewsAction, postReviewAction, postCouponAction, postOrderAction} from './api-actions';
 import {APIRoute} from '../const';
 import {State} from '../types/state';
 import {ReviewData} from '../types/review-data';
+import {CouponData} from '../types/coupon-data';
+import {OrderData} from '../types/order-data';
 import {makeFakeProduct, makeFakeProducts, makeFakePromoProduct, makeFakeReview, makeFakeReviews} from '../utils/mocks';
 
 const fakeProducts = makeFakeProducts();
@@ -169,6 +171,49 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       postReviewAction.pending.type,
       postReviewAction.fulfilled.type
+    ]);
+  });
+
+  it('should dispatch postCouponAction when POST /coupons', async () => {
+    const fakeAddedCoupon: CouponData = {
+      coupon: 'test'
+    };
+
+    mockAPI
+      .onPost(APIRoute.Coupons)
+      .reply(200, 10);
+
+    const store = mockStore();
+
+    await store.dispatch(postCouponAction(fakeAddedCoupon));
+
+    const actions = store.getActions().map(({type}) => type as string);
+
+    expect(actions).toEqual([
+      postCouponAction.pending.type,
+      postCouponAction.fulfilled.type
+    ]);
+  });
+
+  it('should dispatch postOrderAction when POST /orders', async () => {
+    const fakeAddedOrder: OrderData = {
+      camerasIds: [1, 2],
+      coupon: 'test'
+    };
+
+    mockAPI
+      .onPost(APIRoute.Orders)
+      .reply(200);
+
+    const store = mockStore();
+
+    await store.dispatch(postOrderAction(fakeAddedOrder));
+
+    const actions = store.getActions().map(({type}) => type as string);
+
+    expect(actions).toEqual([
+      postOrderAction.pending.type,
+      postOrderAction.fulfilled.type
     ]);
   });
 
