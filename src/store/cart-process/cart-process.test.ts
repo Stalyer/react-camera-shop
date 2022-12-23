@@ -5,8 +5,6 @@ import {
   removeFromCart,
   setIsAddCartSuccess,
   setQuantityProduct,
-  decreaseQuantityProduct,
-  increaseQuantityProduct,
   setCoupon,
   setIsFormOrderFulfilled
 } from './cart-process';
@@ -97,43 +95,6 @@ describe('Reducer: cart', () => {
       product: fakeCartProducts[0].product,
       quantity: 2,
     })))
-      .toEqual({...state, products: [{
-        product: fakeCartProducts[0].product,
-        quantity: 2
-      }]});
-  });
-
-  it('should decrease QuantityProduct', () => {
-    state = {
-      products: [{
-        product: fakeCartProducts[0].product,
-        quantity: 2,
-      }],
-      modalProduct: null,
-      isAddSuccess: false,
-      isFormOrderPending: false,
-      isFormOrderFulfilled: false,
-      coupon: null,
-      discount: 0
-    };
-    expect(cartProcess.reducer(state, decreaseQuantityProduct(fakeCartProducts[0].product)))
-      .toEqual({...state, products: [{
-        product: fakeCartProducts[0].product,
-        quantity: 1
-      }]});
-  });
-
-  it('should increase QuantityProduct', () => {
-    state = {
-      products: fakeCartProducts,
-      modalProduct: null,
-      isAddSuccess: false,
-      isFormOrderPending: false,
-      isFormOrderFulfilled: false,
-      coupon: null,
-      discount: 0
-    };
-    expect(cartProcess.reducer(state, increaseQuantityProduct(fakeCartProducts[0].product)))
       .toEqual({...state, products: [{
         product: fakeCartProducts[0].product,
         quantity: 2

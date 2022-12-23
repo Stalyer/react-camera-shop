@@ -53,22 +53,6 @@ export const cartProcess = createSlice({
         cartFoundItem.quantity = quantity;
       }
     },
-    decreaseQuantityProduct: (state, action) => {
-      const product = action.payload as Product;
-      const cartFoundItem = state.products.find((item) => item.product.id === product.id);
-
-      if (cartFoundItem) {
-        cartFoundItem.quantity--;
-      }
-    },
-    increaseQuantityProduct: (state, action) => {
-      const product = action.payload as Product;
-      const cartFoundItem = state.products.find((item) => item.product.id === product.id);
-
-      if (cartFoundItem) {
-        cartFoundItem.quantity++;
-      }
-    },
     setCoupon: (state, action) => {
       state.coupon = action.payload as string;
     },
@@ -109,8 +93,6 @@ export const {
   removeFromCart,
   setIsAddCartSuccess,
   setQuantityProduct,
-  decreaseQuantityProduct,
-  increaseQuantityProduct,
   setCoupon,
   setIsFormOrderFulfilled
 } = cartProcess.actions;

@@ -2,8 +2,8 @@ import {ChangeEvent} from 'react';
 import {useState, useEffect} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {CartProduct} from '../../types/product';
-import {setModalProduct, setQuantityProduct, decreaseQuantityProduct, increaseQuantityProduct} from '../../store/cart-process/cart-process';
-import {CART_SINGLE_PRODUCT_MAX, CART_SINGLE_PRODUCT_MIN} from '../../const';
+import {setModalProduct, setQuantityProduct} from '../../store/cart-process/cart-process';
+import {CART_SINGLE_PRODUCT_MAX, CART_SINGLE_PRODUCT_MIN, CHANGE_DELAY} from '../../const';
 
 type BasketItemProps = {
   cartProduct: CartProduct;
@@ -15,46 +15,49 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
   const {id, name, vendorCode, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x} = product;
   const totalPrice = quantity * price;
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
+  const [isUpdateInputQuantity, setIsUpdateInputQuantity] = useState(false);
 
   useEffect(() => {
-    setCurrentQuantity(quantity);
-  }, [quantity]);
+    if (!isUpdateInputQuantity) {
+      dispatch(setQuantityProduct({
+        product: product,
+        quantity: currentQuantity
+      }));
+    }
+  }, [isUpdateInputQuantity, currentQuantity, product, dispatch]);
+
+  useEffect(() => {
+    const changeQuantity = setTimeout(() => {
+      if (isUpdateInputQuantity) {
+        if (currentQuantity < CART_SINGLE_PRODUCT_MIN) {
+          setCurrentQuantity(CART_SINGLE_PRODUCT_MIN);
+        }
+
+        if (currentQuantity > CART_SINGLE_PRODUCT_MAX) {
+          setCurrentQuantity(CART_SINGLE_PRODUCT_MAX);
+        }
+
+        setIsUpdateInputQuantity(false);
+      }
+    }, CHANGE_DELAY);
+
+    return () => clearTimeout(changeQuantity);
+  }, [isUpdateInputQuantity, currentQuantity]);
 
   const handleQuantityChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = Number(evt.target.value);
-
-    if (value < CART_SINGLE_PRODUCT_MIN) {
-      dispatch(setQuantityProduct({
-        product: product,
-        quantity: CART_SINGLE_PRODUCT_MIN
-      }));
-      return;
-    }
-
-    if (value > CART_SINGLE_PRODUCT_MAX) {
-      dispatch(setQuantityProduct({
-        product: product,
-        quantity: CART_SINGLE_PRODUCT_MAX
-      }));
-      return;
-    }
-
-    dispatch(setQuantityProduct({
-      product: product,
-      quantity: value
-    }));
+    setCurrentQuantity(value);
+    setIsUpdateInputQuantity(true);
   };
 
   const handleDecreaseQuantityClick = () => {
-    if(quantity > CART_SINGLE_PRODUCT_MIN) {
-      dispatch(decreaseQuantityProduct(product));
-    }
+    setCurrentQuantity(currentQuantity - 1);
+    setIsUpdateInputQuantity(false);
   };
 
   const handleIncreaseQuantityClick = () => {
-    if(quantity !== CART_SINGLE_PRODUCT_MAX) {
-      dispatch(increaseQuantityProduct(product));
-    }
+    setCurrentQuantity(currentQuantity + 1);
+    setIsUpdateInputQuantity(false);
   };
 
   return(
@@ -92,7 +95,7 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
           className="btn-icon btn-icon--prev"
           aria-label="уменьшить количество товара"
           onClick={handleDecreaseQuantityClick}
-          disabled={quantity === CART_SINGLE_PRODUCT_MIN}
+          disabled={currentQuantity <= CART_SINGLE_PRODUCT_MIN}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
@@ -102,7 +105,7 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
         <input
           type="number"
           id={`counter-${id}`}
-          value={currentQuantity}
+          value={currentQuantity ? currentQuantity : ''}
           min={CART_SINGLE_PRODUCT_MIN}
           max={CART_SINGLE_PRODUCT_MAX}
           aria-label="количество товара"
@@ -112,7 +115,7 @@ function BasketItem({cartProduct} : BasketItemProps): JSX.Element {
           className="btn-icon btn-icon--next"
           aria-label="увеличить количество товара"
           onClick={handleIncreaseQuantityClick}
-          disabled={quantity === CART_SINGLE_PRODUCT_MAX}
+          disabled={currentQuantity >= CART_SINGLE_PRODUCT_MAX}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
